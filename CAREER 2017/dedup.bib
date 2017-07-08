@@ -1,0 +1,222 @@
+@article{percept,
+  title = {A psychophysical study of the visual perception of instantaneous and durable},
+  journal = {Vision Research},
+  volume = {17},
+  number = {1},
+  pages = {57 - 63},
+  year = {1977},
+  note = {},
+  author = {Serviere, J., Miceli, D., and Galifret, Y.}
+}
+
+@article{elshimi,
+ title={Primary Data Deduplication -– Large Scale Study and System Design},
+ author = {El-Shimi,A. and Kalach, R. and Kumar, A. and Oltean, A. and Li, J. and Sengupta, S.},
+ booktitle={USENIX ATC},
+ year = {2012}}
+
+@inproceedings{meyer2011study,
+  title={A study of practical deduplication},
+  author={Meyer, D.T. and Bolosky, W.J.},
+  booktitle={Proceedings of the 9th USENIX conference on File and stroage technologies},
+  pages={1--1},
+  year={2011},
+  organization={USENIX Association}
+}
+
+@inproceedings{avanipdsw,
+  title={Semantic data placement for power management in archival storage},
+  author={Wildani, A. and Miller, E.L.},
+  booktitle={Petascale Data Storage Workshop (PDSW), 2010 5th},
+  pages={1--5},
+  year={2010},
+  organization={IEEE}
+}
+
+@article{battles2007reducing,
+  title={Reducing Data Center Power Consumption Through Efficient Storage},
+  author={Battles, B. and Belleville, C. and Grabau, S. and Maurier, J.},
+  journal={Network Appliance, Inc},
+  year={2007}
+}
+
+@inproceedings{storer2008secure,
+  title={Secure data deduplication},
+  author={Storer, M.W. and Greenan, K. and Long, D.D.E. and Miller, E.L.},
+  booktitle={Proceedings of the 4th ACM international workshop on Storage security and survivability},
+  pages={1--10},
+  year={2008},
+  organization={ACM}
+}
+
+@inproceedings{evil-netapp,
+  title={i{D}edup: Latency-aware, inline data deduplication for primary storage},
+  author={Srinivasan, K. and Bisson, T. and Goodson, G. and Voruganti, K.},
+  booktitle={Proccedings of the 10th conference on File and storage technologies},
+  year={2012},
+  organization={USENIX Association}
+}
+@comment{keep an LRU cache of chunks that are sequential}
+
+@inproceedings{lillibridge2009sparse,
+  title={Sparse indexing: large scale, inline deduplication using sampling and locality},
+  author={Lillibridge, M. and Eshghi, K. and Bhagwat, D. and Deolalikar, V. and Trezise, G. and Camble, P.},
+  booktitle={Proceedings of the 7th conference on File and storage technologies},
+  pages={111--123},
+  year={2009},
+  organization={USENIX Association}
+}
+@comment{Solves the disk bottleneck problem by breaking up the backup streams into very large chunks and selectively de-duplicating them against similar chunks stored in a sparse index.  Talk about how this is awesome until it's primary}
+
+@inproceedings{debar,
+  title={DEBAR: A scalable high-performance de-duplication storage system for backup and archiving},
+  author={Yang, T. and Jiang, H. and Feng, D. and Niu, Z. and Zhou, K. and Wan, Y.},
+  booktitle={Parallel \& Distributed Processing (IPDPS), 2010 IEEE International Symposium on},
+  pages={1--12},
+  year={2010},
+  organization={IEEE}
+}
+@comment{This paper illustrates how awesome Bloom filters are for dedup.  Also covers performance, but isn't actually talking about HPC}
+
+
+@techreport{steph-masters,
+  author       = {S. Jones},
+  title        = {Online De-duplication in a Log-Structured File System for Primary Storage},
+  institution  = {University of California, Santa Cruz},
+  number       = {UCSC-SSRC-11-03},
+  month        = may,
+  year         = {2011},
+}
+
+@inproceedings{tsuchiya2011dblk,
+  title={DBLK: Deduplication for primary block storage},
+  author={Tsuchiya, Y. and Watanabe, T.},
+  booktitle={Mass Storage Systems and Technologies (MSST), 2011 IEEE 27th Symposium on},
+  pages={1--5},
+  year={2011},
+  organization={IEEE}
+}
+
+@inproceedings{rigo2006pypy,
+  title={PyPy's approach to virtual machine construction},
+  author={Rigo, A. and Pedroni, S.},
+  booktitle={Companion to the 21st ACM SIGPLAN symposium on Object-oriented programming systems, languages, and applications},
+  pages={944--953},
+  year={2006},
+  organization={ACM}
+}
+
+@inproceedings{chamb1,
+  title={Mixing Deduplication and Compression on Active Data Sets},
+  author={Constantinescu, C. and Glider, J. and Chambliss, D.},
+  booktitle={2011 Data Compression Conference},
+  pages={393--402},
+  year={2011},
+  organization={IEEE}
+}
+@comment{David and Cornel's paper about doing primary deduplication on active data.  }
+
+@inproceedings{sarawagi2002interactive,
+  title={Interactive deduplication using active learning},
+  author={Sarawagi, S. and Bhamidipaty, A.},
+  booktitle={Proceedings of the eighth ACM SIGKDD international conference on Knowledge discovery and data mining},
+  pages={278},
+  year={2002},
+  organization={ACM}
+}
+@comment{Uses learning to select what to de-dup.  I don't think this is relevant to our work}
+
+@inproceedings{riska,
+  title={Disk drive level workload characterization},
+  author={Riska, A. and Riedel, E.},
+  booktitle={Proceedings of the USENIX Annual Technical Conference},
+  pages={97--103},
+  year={2006}
+}
+
+%@techreport{ian-tos,
+  author       = {Ian Adams and Ethan L. Miller and Mark W. Storer},
+  title        = {Analysis of Workload Behavior in Scientific and Historical Long-Term Data
+Repositories},
+  institution  = {University of California, Santa Cruz},
+  number       = {UCSC-SSRC-11-01},
+  month        = mar,
+  year         = {2011}
+}
+
+@inproceedings{zhu2008avoiding,
+  title={Avoiding the disk bottleneck in the data domain deduplication file system},
+  author={Zhu, B. and Li, K. and Patterson, H.},
+  booktitle={Proceedings of the 6th USENIX Conference on File and Storage Technologies},
+  pages={18},
+  year={2008},
+  organization={USENIX Association}
+}
+@comment{ This paper demonstrates the benefit of spatial locality for backup
+workloads.  They demonstrate that in the backup space, using spatial locality
+along with a Bloom filter to detect new segments, they can significantly
+improve the deduplication throughput for backup workloads.  Their method relies
+heavily on the nature of backup workloads to have very high locality that
+remains fairly constant over time: e.g. the groupings in their containers do
+not change.  We show that semantically defined groupings can increase
+deduplication throughput on a variety of workloads without  sacrificing much
+deduplication level}
+
+@inproceedings{efstathopoulos2010rethinking,
+  title={Rethinking deduplication scalability},
+  author={Efstathopoulos, P. and Guo, F.},
+  booktitle={HotStorage’10, 2nd Workshop on Hot Topics in Storage and File Systems},
+  year={2010}
+}
+@comment{This paper demonstrates a variety of techniques to improve scalability
+in backuo worklaods.  While they do mention grouping, they do not expand the
+scope of their workloads beyond backups}
+
+@inproceedings{guo2011building,
+  title={Building a High-performance Deduplication System},
+  author={Guo, F. and Efstathopoulos, P.},
+  booktitle={Proceedings of the 2011 USENIX Annual Technical Conference},
+  pages={14},
+  year={2011},
+  organization={USENIX Association}
+}
+@comment{This paper focuses optimizing single-node deduplication.  }
+
+@article{econ-bigdata,
+  title={Data, data everywhere},
+  author={The Economist},
+  journal={The Economist Newspaper Limited},
+  year={2010},
+  month={February},
+  url={http://www.economist.com/node/15557443?story_id=15557443}
+}
+@comment{Contains a graph that shows data growth increasing faster than storage
+growth}
+
+@article{shasite,
+  title={Crypto++ 5.6.0 Benchmarks},
+  author={Dai, W.},
+  year={2009},
+  publisher={\url{http://www.cryptopp.com/benchmarks.html}}
+}
+
+@article{db-increase,
+  title={Re-Thinking the Lamp Stack: Part 2},
+  author={Katherine Lawrence},
+  journal={PINGV},
+  year={2010},
+  month={December},
+  url={http://pingv.com/blog/rethinking-the-lamp-stack-disruptive-technology}
+}
+@comment{"In a 1999 website, Roy Williams of Cal Tech, offered that 2 petabytes
+  could hold all US academic research libraries. 200 petabytes could hold all
+    printed material."  "In 2007, the digital universe was 281 exabytes. That
+    is: 281 billion gigabytes, and in that year, for the first time, the data
+    generated exceeded storage capacity. Next year, one prediction says it will
+be 1,800 billion gigabytes. That is 1.8 zettabytes — a number so unfamiliar that
+Microsoft Word spellchecker does not recognize it." "Not all information created
+and transmitted gets stored, but by 2011, almost half of the digital universe
+will not have a permanent home.
+Fast-growing corners of the digital universe include those related to digital
+TV, surveillance cameras, Internet access in emerging countries, sensor-based
+applications, datacenters supporting “cloud computing,” and social networks."}

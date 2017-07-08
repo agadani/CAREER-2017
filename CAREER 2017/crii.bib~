@@ -1,0 +1,338 @@
+@article{hanke2014high,
+  title={A high-resolution 7-Tesla fMRI dataset from complex natural stimulation with an audio movie},
+  author={Hanke, Michael and Baumgartner, Florian J and Ibe, Pierre and Kaule, Falko R and Pollmann, Stefan and Speck, Oliver and Zinke, Wolf and Stadler, J{\"o}rg},
+  journal={Scientific data},
+  volume={1},
+  pages={140003},
+  year={2014},
+  publisher={Nature Publishing Group}
+}
+
+@article{masanet,
+  title={Estimating the energy use and efficiency potential of US data centers},
+  author={Masanet, Eric R and Brown, Richard E and Shehabi, Arman and Koomey, Jonathan G and Nordman, Bruce},
+  journal={Proceedings of the IEEE},
+  volume={99},
+  number={8},
+  pages={1440--1453},
+  year={2011},
+  publisher={IEEE}
+}
+@inproceedings{wang2004storage,
+  title={Storage device performance prediction with CART models},
+  author={Wang, Mengzhi and Au, Kinman and Ailamaki, Anastassia and Brockwell, Anthony and Faloutsos, Christos and Ganger, Gregory R},
+  booktitle={Modeling, Analysis, and Simulation of Computer and Telecommunications Systems, 2004.(MASCOTS 2004). Proceedings. The IEEE Computer Society's 12th Annual International Symposium on},
+  pages={588--595},
+  year={2004},
+  organization={IEEE}
+}
+@article{gantz2012digital,
+  title={The digital universe in 2020: Big data, bigger digital shadows, and biggest growth in the far east},
+  author={Gantz, John and Reinsel, David},
+  journal={IDC iView: IDC Analyze the future},
+  volume={2007},
+  number={2012},
+  pages={1--16},
+  year={2012}
+}
+@article{chen2014big,
+  title={Big data deep learning: challenges and perspectives},
+  author={Chen, Xue-Wen and Lin, Xiaotong},
+  journal={IEEE access},
+  volume={2},
+  pages={514--525},
+  year={2014},
+  publisher={Ieee}
+}
+@article{miyoshi2016big,
+  title={“Big Data Assimilation” Toward Post-Petascale Severe Weather Prediction: An Overview and Progress},
+  author={Miyoshi, Takemasa and Lien, Guo-Yuan and Satoh, Shinsuke and Ushio, Tomoo and Bessho, Kotaro and Tomita, Hirofumi and Nishizawa, Seiya and Yoshida, Ryuji and Adachi, Sachiho A and Liao, Jianwei and others},
+  journal={Proceedings of the IEEE},
+  volume={104},
+  number={11},
+  pages={2155--2179},
+  year={2016},
+  publisher={IEEE}
+}
+@inproceedings{maeno2014evolution,
+  title={Evolution of the ATLAS PanDA workload management system for exascale computational science},
+  author={Maeno, T and De, K and Klimentov, A and Nilsson, P and Oleynik, D and Panitkin, S and Petrosyan, A and Schovancova, J and Vaniachine, A and Wenaus, T and others},
+  booktitle={Journal of Physics: Conference Series},
+  volume={513},
+  number={3},
+  pages={032062},
+  year={2014},
+  organization={IOP Publishing}
+}
+@article{raghupathi2014big,
+  title={Big data analytics in healthcare: promise and potential},
+  author={Raghupathi, Wullianallur and Raghupathi, Viju},
+  journal={Health information science and systems},
+  volume={2},
+  number={1},
+  pages={3},
+  year={2014},
+  publisher={BioMed Central}
+}
+@article{nrdc,
+  title={America’s Data Centers Are Wasting Huge Amounts of Energy},
+  author={NRDC},
+  year={2014},
+  url={http://www.nrdc.org/energy/files/data-center-efficiency-assessment-IB.pdf}
+}
+@inproceedings{baker2006fresh,
+  title={A fresh look at the reliability of long-term digital storage},
+  author={Baker, Mary and Shah, Mehul and Rosenthal, David SH and Roussopoulos, Mema and Maniatis, Petros and Giuli, Thomas J and Bungale, Prashanth},
+  booktitle={ACM SIGOPS Operating Systems Review},
+  volume={40},
+  number={4},
+  pages={221--234},
+  year={2006},
+  organization={ACM}
+}
+@inproceedings{tarasov2012extracting,
+  title={Extracting flexible, replayable models from large block traces.},
+  author={Tarasov, Vasily and Kumar, Santhosh and Ma, Jack and Hildebrand, Dean and Povzner, Anna and Kuenning, Geoff and Zadok, Erez},
+  booktitle={FAST},
+  pages={22},
+  year={2012}
+}
+@article{mesnier07,
+  title={Modeling the relative fitness of storage},
+  author={Mesnier, Michael P and Wachs, Matthew and Sambasivan, Raja R and Zheng, Alice X and Ganger, Gregory R},
+  journal={ACM SIGMETRICS Performance Evaluation Review},
+  volume={35},
+  number={1},
+  pages={37--48},
+  year={2007},
+  publisher={ACM}
+}
+@misc{mesnier05,
+  title={Modeling the relative fitness of storage devices},
+  author={Mesnier, Michael and Wachs, Matthew and Ganger, Gregory},
+  year={2005},
+  publisher={Citeseer}
+} 
+@inproceedings{ursa_minor,
+  title={Ursa Minor: Versatile Cluster-based Storage.},
+  author={Abd-El-Malek, Michael and Courtright II, William V and Cranor, Chuck and Ganger, Gregory R and Hendricks, James and Klosterman, Andrew J and Mesnier, Michael P and Prasad, Manish and Salmon, Brandon and Sambasivan, Raja R and others},
+  booktitle={FAST},
+  volume={5},
+  pages={5--5},
+  year={2005}
+}
+@inproceedings{soundararajan2009dynamic,
+  title={Dynamic Resource Allocation for Database Servers Running on Virtual Storage.},
+  author={Soundararajan, Gokul and Lupei, Daniel and Ghanbari, Saeed and Popescu, Adrian Daniel and Chen, Jin and Amza, Cristiana},
+  booktitle={FAST},
+  volume={9},
+  pages={71--84},
+  year={2009}
+}
+@incollection{lecunfactor,
+  title={Dynamic factor graphs for time series modeling},
+  author={Mirowski, Piotr and LeCun, Yann},
+  booktitle={Machine Learning and Knowledge Discovery in Databases},
+  pages={128--143},
+  year={2009},
+  publisher={Springer}
+}
+@inproceedings{cake,
+ author = {Wang, Andrew and Venkataraman, Shivaram and Alspaugh, Sara and Katz, Randy and Stoica, Ion},
+ title = {Cake: Enabling High-level SLOs on Shared Storage Systems},
+ booktitle = {Proceedings of the Third ACM Symposium on Cloud Computing},
+ series = {SoCC '12},
+ year = {2012},
+ isbn = {978-1-4503-1761-0},
+ location = {San Jose, California},
+ pages = {14:1--14:14},
+ articleno = {14},
+ numpages = {14},
+ url = {http://doi.acm.org/10.1145/2391229.2391243},
+ doi = {10.1145/2391229.2391243},
+ acmid = {2391243},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {consolidation, service-level objectives, storage systems, two-level scheduling},
+} 
+
+@article{manvi_iaas,
+  title={Resource management for Infrastructure as a Service (IaaS) in cloud computing: A survey},
+  author={Manvi, Sunilkumar S and Shyam, Gopal Krishna},
+  journal={Journal of Network and Computer Applications},
+  volume={41},
+  pages={424--440},
+  year={2014},
+  publisher={Elsevier}
+}
+@inproceedings{poupart2006analytic,
+  title={An analytic solution to discrete Bayesian reinforcement learning},
+  author={Poupart, Pascal and Vlassis, Nikos and Hoey, Jesse and Regan, Kevin},
+  booktitle={Proceedings of the 23rd international conference on Machine learning},
+  pages={697--704},
+  year={2006},
+  organization={ACM}
+}
+@inproceedings{hippodrome,
+  title={Hippodrome: Running Circles Around Storage Administration.},
+  author={Anderson, Eric and Hobbs, Michael and Keeton, Kimberly and Spence, Susan and Uysal, Mustafa and Veitch, Alistair C},
+  booktitle={FAST},
+  volume={2},
+  pages={175--188},
+  year={2002}
+}
+@inproceedings{gulati2011pesto,
+  title={Pesto: online storage performance management in virtualized datacenters},
+  author={Gulati, Ajay and Shanmuganathan, Ganesha and Ahmad, Irfan and Waldspurger, Carl and Uysal, Mustafa},
+  booktitle={Proceedings of the 2nd ACM Symposium on Cloud Computing},
+  pages={19},
+  year={2011},
+  organization={ACM}
+}
+@article{kelly2004inducing,
+  title={Inducing models of black-box storage arrays},
+  author={Kelly, Terence and Cohen, Ira and Goldszmidt, Moises and Keeton, Kimberly},
+  journal={HP Laboratories, Palo Alto, CA, Technical Report HPL-2004-108},
+  year={2004}
+}
+@inproceedings{wang2004storage,
+  title={Storage device performance prediction with CART models},
+  author={Wang, Mengzhi and Au, Kinman and Ailamaki, Anastassia and Brockwell, Anthony and Faloutsos, Christos and Ganger, Gregory R},
+  booktitle={Modeling, Analysis, and Simulation of Computer and Telecommunications Systems, 2004.(MASCOTS 2004). Proceedings. The IEEE Computer Society's 12th Annual International Symposium on},
+  pages={588--595},
+  year={2004},
+  organization={IEEE}
+}
+@inproceedings{gomez2000new,
+  title={A new approach in the modeling and generation of synthetic disk workload},
+  author={G{\'o}mez, Mar{\'\i}a E and Santonja, Vicente},
+  booktitle={Modeling, Analysis and Simulation of Computer and Telecommunication Systems, 2000. Proceedings. 8th International Symposium on},
+  pages={199--206},
+  year={2000},
+  organization={IEEE}
+}
+@inproceedings{uttamchandani2005chameleon,
+  title={CHAMELEON: A Self-Evolving, Fully-Adaptive Resource Arbitrator for Storage Systems.},
+  author={Uttamchandani, Sandeep and Yin, Li and Alvarez, Guillermo A and Palmer, John and Agha, Gul A},
+  booktitle={USENIX Annual Technical Conference, General Track},
+  pages={75--88},
+  year={2005}
+}
+@article{liu2012feedback,
+  title={Feedback message passing for inference in Gaussian graphical models},
+  author={Liu, Ying and Chandrasekaran, Venkat and Anandkumar, Animashree and Willsky, Alan S},
+  journal={Signal Processing, IEEE Transactions on},
+  volume={60},
+  number={8},
+  pages={4135--4150},
+  year={2012},
+  publisher={IEEE}
+}
+@inproceedings{ganger1995generating,
+  title={Generating representative synthetic workloads: An unsolved problem},
+  author={Ganger, Gregory R},
+  booktitle={in Proceedings of the Computer Measurement Group (CMG) Conference},
+  year={1995},
+  organization={Citeseer}
+}
+@inproceedings{kurmas2003synthesizing,
+  title={Synthesizing representative I/O workloads using iterative distillation},
+  author={Kurmas, Zachary and Keeton, Kimberly and Mackenzie, Kenneth},
+  booktitle={Modeling, Analysis and Simulation of Computer Telecommunications Systems, 2003. MASCOTS 2003. 11th IEEE/ACM International Symposium on},
+  pages={6--15},
+  year={2003},
+  organization={IEEE}
+}
+@article{lfs,
+  title={The design and implementation of a log-structured file system},
+  author={Rosenblum, Mendel and Ousterhout, John K},
+  journal={ACM Transactions on Computer Systems (TOCS)},
+  volume={10},
+  number={1},
+  pages={26--52},
+  year={1992},
+  publisher={ACM}
+}
+@inproceedings{riska2006disk,
+  title={Disk Drive Level Workload Characterization.},
+  author={Riska, Alma and Riedel, Erik},
+  booktitle={USENIX Annual Technical Conference, General Track},
+  volume={2006},
+  pages={97--102},
+  year={2006}
+}
+@inproceedings{mesnier2007modeling,
+  title={Modeling the relative fitness of storage},
+  author={Mesnier, Michael P and Wachs, Matthew and Sambasivan, Raja R and Zheng, Alice X and Ganger, Gregory R},
+  booktitle={ACM SIGMETRICS Performance Evaluation Review},
+  volume={35},
+  number={1},
+  pages={37--48},
+  year={2007},
+  organization={ACM}
+}
+
+@inproceedings{roth2007characterizing,
+  title={Characterizing the I/O behavior of scientific applications on the Cray XT},
+  author={Roth, Philip C},
+  booktitle={Proceedings of the 2nd international workshop on Petascale data storage: held in conjunction with Supercomputing'07},
+  pages={50--55},
+  year={2007},
+  organization={ACM}
+}
+@article{carns2011understanding,
+  title={Understanding and improving computational science storage access through continuous characterization},
+  author={Carns, Philip and Harms, Kevin and Allcock, William and Bacon, Charles and Lang, Samuel and Latham, Robert and Ross, Robert},
+  journal={ACM Transactions on Storage (TOS)},
+  volume={7},
+  number={3},
+  pages={8},
+  year={2011},
+  publisher={ACM}
+}
+
+@article{google_dist_store_2015,
+  title={Take me to your leader!: online optimization of distributed storage configurations},
+  author={Sharov, Artyom and Shraer, Alexander and Merchant, Arif and Stokely, Murray},
+  journal={Proceedings of the VLDB Endowment},
+  volume={8},
+  number={12},
+  pages={1490--1501},
+  year={2015},
+  publisher={VLDB Endowment}
+}
+
+@inproceedings{wildani2015case,
+  title={A case for rigorous workload classification},
+  author={Wildani, Avani and Adams, Ian F},
+  booktitle={Modeling, Analysis and Simulation of Computer and Telecommunication Systems (MASCOTS), 2015 IEEE 23rd International Symposium on},
+  pages={146--149},
+  year={2015},
+  organization={IEEE}
+}
+
+@inproceedings{dwyer2012practical,
+  title={A practical method for estimating performance degradation on multicore processors, and its application to HPC workloads},
+  author={Dwyer, Tyler and Fedorova, Alexandra and Blagodurov, Sergey and Roth, Mark and Gaud, Fabien and Pei, Jian},
+  booktitle={Proceedings of the International Conference on High Performance Computing, Networking, Storage and Analysis},
+  pages={83},
+  year={2012},
+ organization={IEEE Computer Society Press}
+}
+@article{seo_char,
+  title={IO workload characterization revisited: A data-mining approach},
+  author={Seo, Bumjoon and Kang, Sooyong and Choi, Jongmoo and Cha, Jaehyuk and Won, Youjip and Yoon, Sungroh},
+  journal={IEEE Transactions on Computers},
+  volume={63},
+  number={12},
+  pages={3026--3038},
+  year={2014},
+  publisher={IEEE}
+}
+@inproceedings{selfdrivingcars,
+  title={The most revolutionary thing about self-driving cars isn't what you think},
+  author={Florian Leibert}
+  booktitle={World Economic Forum Agenda, 2016},
+  year={2016},
+  url={https://www.weforum.org/agenda/2017/06/the-most-revolutionary-thing-about-self-driving-cars-isn-t-what-you-think/}
+  }
