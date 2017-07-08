@@ -83,28 +83,42 @@
 %of workload. 
 
 %Understanding how storage systems are used is often the difference between 
+Data centers account for between 3-4\% of annual global energy                                          
+consumption~\cite{nrdc}.  In the United States alone, data centers are wasting                          
+$3.9\times10^{10}$ kW/h, or over \$3.8 billion dollars, of power due to a                               
+combination of peak provisioning, poor workload prediction, and competing
+storage goals~\cite{masanet,nrdc}. 
+%This number is only going to increase as                            
+%more services move into the cloud while retaining more data for increasingly                            
+%indefinite amounts of time~\cite{nrdc,baker2006fresh}. 
 
-Customizing data management systems to specific workload types allows for intelligent trade-offs between factors such as power, cost, and data reliability
-that are critical to maintaining the infrastructure for storing and
-accessing the wealth of ``big data'' that the scientific and societal domains are
-generating.  Currently, workloads are either artificially limited or defined
-according to a simplified category, such as ``Archival'' or ``High Performance.''%Traditional workload labels such as ``archival'' and ``HPC'' 
+Characterization of workload                    
+features will lead to better dynamic provisioning of data centers, which will                           
+reduce the waste of mismatched provisioning between storage workloads and data
+center design.  
+%Tuning distributed storage systems as workloads shift over time allows for intelligent trade-offs between %factors such as power, cost, and data reliability, allowing datacenters to better simultaneously serve %multiple clients.
+%Modern applications on shared cloud storage have wildly different requirements for consistency, cost, and %latency, among other factors.  Storage elasticity is critical for meeting the requirements of different %workloads as they share the same physical storage, and as the workloads themselves shift over time.
+Currently, many storage tuning guidelines depend on labeling workloads with high level categories such as ``Archival,'' ``Streaming,'' or ``High Performance.'' %Traditional workload labels such as ``archival'' and ``HPC'' 
 These labels are poorly
-understood and inconsistently applied.  As usage of systems has evolved, the
-language to describe this usage has stagnated.  To better understand how
-workload type translates into system design requirements, a combination
-of longitudinal analysis and statistical feature extraction to categorize
-workload traces and study how the properties of classical workload types, such
-as the ``write-once, read-maybe'' assumption for archives, have evolved over
-time is necessary.  
+understood and inconsistently applied.  As usage of systems has evolved, the common
+language to describe this usage has stagnated in favor of institutional knowledge and reactive storage~\cite{TK}.
+%
+%To better understand how
+%workload type translates into system design requirements, a combination
+%of longitudinal analysis and statistical feature extraction to categorize
+%workload traces and study how the properties of classical workload types, such
+%as the ``write-once, read-maybe'' assumption for archives, have evolved over
+%time is necessary.  
 
-This proposal outlines the groundwork for a research program to rigorously
-define these broad categories as sets of learned features that
-can be combined to form unique signatures for a specific workload type.
-These signatures will provide quantitative
-measures to automatically configure storage systems and improve metrics such as power, availability, and
-performance by mathematically relating storage algorithms with workload
-properties using a notion of \systemfit.
+This proposal outlines the groundwork for a research program to supplant these broad categories with a set of \mWs defined by learned \textit{metrics}.  Metrics, such as ``periodicity'' or ``read locality'' will be mapped to \textit{actionable hints} for administrators to improve workload-aware storage provisioning.
+ 
+%A small, fixed set of \mws that are sufficiently distinct, measured by maximizing entropy between %workloads, will  to that
+%can be combined to form unique signatures for any specific workload type.  These signatures, in turn, can %provide specific, quantitative suggestions to administrators tasked with tuning storage systems.
+
+%These signatures will provide quantitative
+%measures to automatically configure storage systems and improve metrics such as power, availability, and
+%performance by mathematically relating storage algorithms with workload
+%properties using a notion of \systemfit.
 
 The program addresses three mutually reinforcing \textbf{research objectives}.
 %collectively called \smartcache{}.
@@ -122,46 +136,66 @@ storage?}
  % 
 
 The PI proposes to identify a set of canonical \textit{model workloads} to serve as basis vectors for the space
-of workload behaviours.  Isolating these workloads will require analyzing what
+of workload characteristics.  These models will be developed by combining domain expertise and machine learning techniques to ascertain what
 metrics are most relevant across and within different usage scenarios, such as
-GPFS deployments or high performance scientific experiments.  Once a set of
-features are identified, the PI will generate a dendogram of workload types such
-that associations between individual workloads as well as likely evolution of
-workloads becomes easier to predict.  This will be experimentally validated by
-generating traces using the properties of the model workloads and showing that
-these model workloads capture enough real workload behaviour that the system
-response is predictable.  
+GPFS deployments or high performance scientific experiments.  
+%Once a set of
+%metrics are identified, the PI will generate a dendogram of metric combinations such
+%that properties of individual workloads as well as likely evolution of
+%workloads becomes easier to predict.  
+
+%This will be experimentally validated by
+%generating traces using the properties of the model workloads and showing that
+%these model workloads capture enough real workload behaviour that the system
+%response is predictable.  
+Metric quality will be addressed using
+statistics, learning theory, and optimization on 
+real-world workloads, and evaluated using both simulations and experiments to assess how well they describe real workloads.
 
 \item[2.]
-\emph{What if worklaods were automatically detectable and classified into
+\emph{What if workloads were automatically detectable and classified into
 \textit{model workload} categories?}
-The PI proposes to develop a suite of algorithms to identify workloads in traces and associate the workloads found with corresponding model
-workloads.  The PI proposes to primarily identify workloads using
-filesystem snapshots, which can be collected during periods of system downtime.
+The PI proposes to develop a suite of algorithms to identify workloads, defined as correlated I/O activity, in traces and associate the workloads found with corresponding model
+workloads.  The PI will focus on isolating interleaved workloads within static and dynamic traces.  Once workloads are isolated, they will be matched to the appropriate model category through defining a weighted similarity function.  The PI will design an online system to calculate metrics on workloads to produce hints for tuning elastic storage systems.
+%proposes to primarily identify workloads using
+%filesystem snapshots, which can be collected during periods of system downtime.
 The study involves developing low overhead trace collection for model workload
-features, separation of interleaved workloads, and system-aware model fitting
-for the workloads that are isolated.  This will be evaluated based on
-performance improvements based on the model workload system parameters being
-applied to the system.
+features, separation of interleaved workloads, and building a web-based tool to provide workload analysis to the commmunity 
+%to both gather training data and provide a workload visualization and annotation tool to the community.
+%and system-aware model fitting
+%for the workloads that are isolated.  The efficacy of the classification will be tested by interleaving %known distinct workloads and verifying that the workloads are correctly isolated and labeled with the model workload that is most similar.  
+
+% FIXME: Include meta-grouping here for deriving workloads?
+
+%This will be evaluated based on
+%performance improvements based on the model workload system parameters being
+%applied to the system.
 
 
 \item[3.]
-\emph{What if storage system tuning was automatic and portable?} The PI aims to
-expand model workloads to develop a
+\emph{What if storage system tuning was automatic and portable?} The PI aims to develop a
 parametric model of the relationship between storage workloads and the
-infrastructures developed to serve them.  This will build on the previous two
-projects where, assuming 
-.  
-%\emph{What if data layout was workload-reactive? } 
+infrastructures developed to serve them.  %Given that model workloads are defined by a set of metrics, 
+The PI will architect a system that maps metrics to tuning hints while accounting for inter and intra-workload metric interactions.  
+
 The PI aims to
-demonstrate, both analytically and through experimental validation, that storage
-systems designed to meet requirements automatically generated from workloads are
-more power and cost efficient than systems designed around traditional
-constraints. This improvement will be both direct, in the form of procedurally
-generated system requirements for a predicted level of performance, and indirect
-, in the form of better simulated workloads for system testing.  Additionally,
-strict workload characterizations will drive administrative tuning and aide hardware
-procurement and workload placement decisions.
+demonstrate, both analytically and through experimental validation, that tunings for similar workloads are transferable between storage
+systems and that automated tuning improves storage system provisioning in terms of performance and cost.
+%are
+%more power and cost efficient than systems designed around traditional
+%constraints.
+  
+%\emph{What if data layout was workload-reactive? } 
+%The PI aims to
+%demonstrate, both analytically and through experimental validation, that storage
+%systems designed to meet requirements automatically generated from workloads are
+%more power and cost efficient than systems designed around traditional
+%constraints. This improvement will be both direct, in the form of procedurally
+%generated system requirements for a predicted level of performance, and indirect
+%, in the form of better simulated workloads for system testing.  Additionally,
+%strict workload characterizations will drive administrative tuning and aide hardware
+%procurement and workload placement decisions.
+
 %\emph{What if caches were cost conscious?} The PI aims to generate a systematic understanding of how external costs should be incorporated into cache systems, including
 %diverse data-processing costs and performance feedback from external systems affected by cache replacement decisions.
 %The study involves devising performance models as these parameters vary, harnessing properties
@@ -192,36 +226,37 @@ procurement and workload placement decisions.
 %\emph{What if storage system tuning was portable?} The PI proposes to define a
 %parameterization
 %\emph{What if the cost of data layout was workload-quantifiable?} The PI
-proposes to develop a suite of unsupervised methods to learn features from
-static and dynamic workload
-traces.  These features will be ranked based on their relevance to the
-\systemfit: a measure of how closely the needs of the workload match the
-abilities of a target storage system.   Signatures of features will redefine current workload
-classifications.
-% Below lines are Ymir's, but they're totally applicable to me, and he'd had
-% them commented out.  ASK!!!
-The issue of identifying and assessing useful features will be addressed using
-statistics, learning theory, and optimization on 
-real-world workloads, and evaluated using both simulations and experiments to assess how prediction quality varies
-by computation time in realistic settings.
+%proposes to develop a suite of unsupervised methods to learn features from
+%static and dynamic workload
+%traces.  These features will be ranked based on their relevance to the
+%\systemfit: a measure of how closely the needs of the workload match the
+%abilities of a target storage system.   Signatures of features will redefine current workload
+%classifications.
+%% Below lines are Ymir's, but they're totally applicable to me, and he'd had
+%% them commented out.  ASK!!!
+
 \end{myitemize}
 
 \subsubsection*{Intellectual Merit: }
 
 %The research outcomes of the proposal expand computer systems research in several ways.
-There is currently no quantitative method to determine what features define a
-storage workload. A method to select
-predictive, high-information features from existing traces will open a new area of
-inquiry to better design storage systems that match
-expected inputs.  Automatically determining workload features is critical
-because of the recent shift from dedicated storage systems to shared systems,
-where large amounts of data are placed together and accessed by a dynamic set of
-users and applications.
+%There is currently no quantitative method to determine what features define a
+%storage workload. 
 
-Obtaining test data with particular qualities is often the most difficult part of
-designing new storage systems or algorithms.
+
+
+A method to select
+predictive, high-information metrics to describe modern workloads coupled with a way of isolating ``functional workloads'' within a system will open a new area of inquiry for storage system tuning and design.  Questions such as ``is it worth 1 week of engineer time to reduce this latency?'' or ``should we add an SSD to a customer system'' will be easier to answer with a parametric worklaod model to base simulations from.% from existing traces will open a new area of
+%inquiry to better design storage systems for a modern workload.
+%Automatically determining workload features is critical
+%because of the recent shift from dedicated storage systems to shared systems,
+%where large amounts of data are placed together and accessed by a dynamic set of
+%users and applications.
+%
+%Obtaining test data with particular qualities is often the most difficult part of
+%designing new storage systems or algorithms.
 Quantitative methods for determining workload features from static and dynamic
-traces will provide a template for designing test workloads, where the
+traces will also provide a template for designing test workloads, where the
 over-fitting of the workload to the system is precisely defined and can be
 adjusted based on the design requirements.
 
@@ -247,27 +282,33 @@ adjusted based on the design requirements.
 % fit so we can share workloads better.
 
 \subsubsection*{Broader Impacts: }
+As part of this project, the PI will build a 
+web-based trace repository that will include a visualization and analysis tool. This tool will calculate metrics and
+offer configuration suggestions to users while increasing the number
+of traces available to the academic community.  The PI will work with SNIA to ensure that traces are widely available and a consistent trace format is maintained.
 
-* Start a program to train more mathematically inclined people in data analysis
-for distibuted systems.  Data science is super hot, the overlap between people
-who know data science and systems is very low, and this would be a good way to
-get more women into systems since statistically women have preferred more
-quantitative areas of CS like ML and Algorithms and pure math to systems and
-infrastructure, to the detriment of the field.
+The PI will also pioneer a curriculum to attract students from the mathematics and data science communities to systems research.  The curriculum will include a workshop at the Atlanta Science Festival to introduce local high school students to quantitative systems research.  This will both bring a needed mathematical rigor to experimental systems research while improving representation for women and minorities.%, who tend to choose more mathematical CS subfields, in systems.  
+
+%* Start a program to train more mathematically inclined people in data analysis
+%for distibuted systems.  Data science is super hot, the overlap between people
+%who know data science and systems is very low, and this would be a good way to
+%get more women into systems since statistically women have preferred more
+%quantitative areas of CS like ML and Algorithms and pure math to systems and
+%infrastructure, to the detriment of the field.%
 
 % FIXME OLD BELOW THIS
-An established set of metrics and algorithms to tune them will help translate advances in storage
-design across systems by making storage optimization a modular enterprise.
-Additionally, a common workload characterization will improve communication of
-new discoveries across storage systems research, as researchers will be able to
-discuss the workloads in their studies in aggregate without having to
-reveal any proprietary access data.
+%An established set of metrics and algorithms to tune them will help translate advances in storage
+%%design across systems by making storage optimization a modular enterprise.
+%Additionally, a common workload characterization will improve communication of
+%new discoveries across storage systems research, as researchers will be able to
+%discuss the workloads in their studies in aggregate without having to
+%reveal any proprietary access data.
 
-Improving \systemfit will allow the development of storage solutions that are
-better provisioned for the particular likely workloads.
-This will lead to systems with lower power usage and correspondingly lower cost,
-making it possible to store more data with higher levels of reliability in
-resource constrained environments.
+%Improving \systemfit will allow the development of storage solutions that are
+%better provisioned for the particular likely workloads.
+%This will lead to systems with lower power usage and correspondingly lower cost,
+%making it possible to store more data with higher levels of reliability in
+%resource constrained environments.
 
 %Common language to discuss systems workloads will be key to future efforts
 %across the field in sharing datasets and determining how to fairly compare

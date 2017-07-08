@@ -856,8 +856,10 @@ Agglomerative clustering is a well established, interpretable unsupervised
 machine learning algorithm that fulfills all of the requirements for snapshot
 analysis as well as providing a natural hierarchy for correlating user locality with path.  We also tested $k$-means and a simple grouping based on a single attribute at a time. 
 % TODO: Decide if we also want iClust in this.
-To measure cluster validity we calculate the joint Shannon entropy across a set of features of
+To measure cluster validity in the absence of ground truth, we calculate the joint Shannon entropy across a set of features of
 interest within each clustering.
+
+
 % *** Put these in the real paper *** 
 %\begin{figure}
 %% Histogram of files in different directory levels?  
@@ -922,13 +924,12 @@ interest within each clustering.
 %\texttt{lnfs} case, most of these modifications are within a small span of time.
 
 Based on these results, we
-are investigating clustering algorithms that can support:
+are investigating other clustering algorithms that can support:
 
 \begin{itemize}
 \item $n$-dimensional, non-linear heterogeneous data
-\item Encoding hierarchical relationships between both data and labels
-\item Data with low inter-cluster separation, as in the \texttt{lnfs}
-case, without over-fitting
+\item More varied interleaved workloads
+\item Data with low inter-cluster separation
 \end{itemize}
 
 %% Discuss this in real paper!
@@ -937,13 +938,23 @@ case, without over-fitting
 %5derived from the permissions and path fields.  
 
 \subsection*{Research Goals: }
-Clustering a single snapshot is a novel approach that is
-useful given the size and performance requirements of modern systems.  We believe that our clustering will be able to hint at working
-sets based on modifications grouped by labels such as user or path.  These
-working sets could then reveal hidden characteristics of a workload, such as
-project interrelationships, from a single snapshot.    
+%Clustering a single snapshot is a novel approach that is
+%useful given the size and performance requirements of modern systems. 
+%We believe that our clustering will be able to hint at working
+%sets based on modifications grouped by labels such as user or path.  These
+%working sets could then reveal hidden characteristics of a workload, such as
+%project interrelationships, from a single snapshot.    
 Given enough data, our ultimate goal is to reliably classify snapshots
-by the type of workload they represent.
+by the type of workload they represent.  Once we are satisfied with the clustering metric, we will build a neural network to determine what \mws the various clusters most represent. 
+Neural networks are %FIXME
+%FANTASTIC.  THEY SOLVE ALL THE PROBLEMS AND DEEP LEARNING BUZZWORD.  Also, I can point to my brain stuff here which is otherwise totally unrelated.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\linewidth]{nn-example.eps}
+    \caption{This example network classifies audio samples.  We converted the high dimensional source data to a spectrogram and built a CNN.  Note that the intermediate, hidden nodes in the graph, represented by the lower row of images, correspond to complex features instead of single notes.  When played, these form recognizable motifs, leading us to believe the same concept could work for storage workload snapshots.}
+    \label{fig:nn}
+\end{figure}
 
 Moving further, we would like to combine the clusterings from a single-snapshot
 analysis with the methodologies in place, such as learning inter-reference
@@ -1424,7 +1435,7 @@ The PI is currently working on starting a similar organization at Emory Universi
 for high schools and K-12 students.%}}}
 
 
-\subsubsection*{Encouraging Women and Minorities in Computing: }%{{{
+%\subsubsection*{Encouraging Women and Minorities in Computing: }%{{{
 %% nsfwomen [National Science Foundation, National Center for Science and Engineering Statistics. 2013. Women, Minorities, and Persons with Disabilities in Science and Engineering: 2013. Special Report NSF 13-304. Arlington, VA. Available at http://www.nsf.gov/statistics/wmpd/].
 %% labor [http://www.govinfosecurity.com/information-security-analysts-jobless-rate-zilch-a-3499 cites a Labor Department Buerau of Labor Statistics study]
 %%Women constitute 28\% of the STEM workforce \cite{nsfwomen}, but represent only
@@ -1442,7 +1453,7 @@ for high schools and K-12 students.%}}}
 %The online interactive website for \smartcache{} is accessible to diverse groups of people,
 %providing opportunity for women, underrepresented minorities and disadvantaged groups to  
 %develop their skills in a safe environment without the stigma often associated
-i%with classroom settings and physical competitions \cite{Shumba:2013:CWM:2543882.2543883}. %}}}
+%with classroom settings and physical competitions \cite{Shumba:2013:CWM:2543882.2543883}. %}}}
 
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1454,16 +1465,18 @@ i%with classroom settings and physical competitions \cite{Shumba:2013:CWM:254388
 \textbf{Year 1:} 
 \begin{itemize}
 \item Define performance-impacting generic metrics for filesystem workloads.
-\item Build trace-ingest website and metric generator 
-\item Complete dynamic trace feature extractor.
+\item Begin building learning model for trace metric extraction
+\item Begin building trace-ingest website and metric generator.
+%\item Complete dynamic trace feature extractor.
 %\item Begin work on simulation engine for feature-based workload generation.
 \end{itemize}
 \noindent
 \textbf{Year 2:} 
 \begin{itemize}
-\item Complete static trace feature extractor.
+\item Continue refining metric extraction framework
+\item Add trace visualization to website
+\item Define distance algorithm to map workloads to model
 \item Create, promote, and launch data curation workshop at ASF; run annually after.
-\item Pilot quantitative storage systems course at Emory.
 %\item Present simulated results for feature-optimized storage.
 %\item Develop architecture plan for real implementation
 \end{itemize}
@@ -1472,7 +1485,10 @@ i%with classroom settings and physical competitions \cite{Shumba:2013:CWM:254388
 \noindent
 \textbf{Year 3:}
 \begin{itemize}
-\item FIXME
+\item Build system to isolate interleaved workloads.
+\item Begin work on metric to tuning parameter mapping for AutoTune  
+\item Pilot quantitative storage systems course at Emory.
+\item Introduce data curation mini-track at Grace Hopper.
 %Start research on Regenerative Caches. 
 %Design large-scale evaluation of \smartcache{}.
 %
@@ -1483,14 +1499,15 @@ i%with classroom settings and physical competitions \cite{Shumba:2013:CWM:254388
 %Full-stack integration of \smartcache{} components. 
 %
 \begin{itemize}
-\item FIXME
+\item Refine AutoTune and deploy in cooperation with industry parters.  Collect usage and efficacy data.
 \item Integrate research into storage systems course. 
 \end{itemize}
 \noindent
 \textbf{Year 5:} 
 %Integration of \smartcache{} stack into test applications, evaluate against defined metrics.
 \begin{itemize}
-\item FIXME
+\item Publish AutoTune to the community
+\item Integrate automatic tuning with the trace metric website.
 \item Graduate first Ph.D.~student.
 %u
 \end{itemize}
