@@ -49,22 +49,22 @@
 %Storage systems research is the study of trade-offs between security,
 %reliability, availability, and performance.  High impact projects highlight
 %special cases in this tuning.
+%* FIXME VISION STATEMENT HERE**
 
-There are many factors, from cache size to device type to the redundancy model, to
-balance when designing a storage system.  All storage systems exist
-to serve some group of users and applications, which together form a set of
-workloads that pass through the system.  Tuning a storage system is a delicate
+My research involves BIG BOLD STATEMENT ABOUT HOW I'M GOING TO CHANGE THE DAMN WORLD AND TAKE DOWN THE PATRIARCHY.
+
+
+Tuning a storage system is a delicate
 balance between reliability, availability, security, performance spread over the
-users of the system.  
-Many systems are designed with particular uses in mind that guide this tradeoff,
-but an architect designing a new system, or modifying an existing
-infrastructure for a
-new workload, typically has to re-derive tuning details.  
-
-The overarching theme of this research project is to improve system tuning by
+users of the system. %There are many factors, from cache size to device type to the redundancy model, to balance when designing a storage system.
+All storage systems exist to serve some group of users and applications, which together form a set of
+workloads that pass through the system. Many systems are designed with particular uses in mind that guide this tradeoff, but an architect designing a new system or modifying an existing
+infrastructure for a new workload typically has to re-derive tuning details to match modified system demands. The overarching theme of this research project is to improve system tuning by
 focusing on what workload features are most important for transferring
-performance tuning hints between different storage infrastructures.
+performance tuning between different storage infrastructures.
 
+%FIXME TODO
+You know what? There needs to be a defense here that the system characteristics change.  Right now it just sounds like they're set up wrong because the choices to design them are clunky, but I think you're more interested in addressing dynamics.  Make that case early that workloads consistently evolve before going into the specifics below.
 %All of these
 %factors reduce to some cost function, which is determined by ``how much is a
 %perfectly tuned system worth?''  On the other side of this balance, there are
@@ -74,6 +74,8 @@ performance tuning hints between different storage infrastructures.
 % I'm not sure I believe that management cost is that high for workload
 % shifts... maybe focus on the other part of the cost ftn? #FIXME
 
+The objectives of work within this proposal address three costly pitfalls in workload classification.
+
 \textit{In the absence of a consistent, quantitative workload classification scheme, storage is being tuned for workloads that do not exist.}
 
 Currently, workloads are either artificially limited or defined
@@ -81,10 +83,13 @@ according to a simplified category, such as ``Archival'' or ``High
 Performance.'' These labels are poorly understood and inconsistently applied.
 Moreover, many modern workloads fall outside of these categories and are highly variable over relatively short time-scales~\cite{google_dist_store_2015}.  For cloud storage, elasticity is a crucial factor, but misconfiguration in reactive storage tuning has been cited to be a leading cause of production failures~\cite{yin2011empirical}.  
 
-Our goal is to open up a new subfield of storage research by identifying a
-taxonomy of workloads with defined, quantitative metric definitions to make research
-easier to replicate, translate, and ultimately improve the fit between the
-storage system and the needs of its users.  Fit is critical: in the United States alone, data centers are wasting
+
+% FIXME **Maybe this objective should be focused overall to reduce overprovisioning, as that's the costly element?
+
+Our goal is to abolish storage overprovisioning  by developing a
+taxonomy of workloads with defined, quantitative metrics to make analyses
+easier to replicate, translate, and ultimately to improve the fit between the
+storage system and the needs of its users. Fit is critical: in the United States alone, data centers are wasting
 $3.9\times10^{10}$ kW/h, or over \$3.8 billion dollars, of power every year due
 to storage overprovisioning~\cite{nrdc}.
 
@@ -104,13 +109,14 @@ to storage overprovisioning~\cite{nrdc}.
 %particular workloads are assumed to not need due to their patterns of access.
 
 
-We are going to address this problem in three stages:
+%We are going to address this workload characterization in three stages:
+% FIXME 2nd point might get swapped out
 While workload characterization is a large and complex problem, it can be broken
 into three key, equally important questions:
 \begin{itemize}
   \item ``What metrics should we measure?''
   \item ``How should we measure them?''
-  \item ``How do we match real workloads to our metrics?''
+  \item ``How do we match real workloads to our metrics?''  (Or vice versa, more accurately?)
 %  \item{Identify a set of \mWs that represent the major classes of applications
  % that systems are tuned to serve.}
  % \item{Automatically identify \mWs running on a system.}
@@ -152,21 +158,21 @@ environment.  %, \eg many archival
 This issue is exacerbated by the
 shift towards shared storage systems, where many workload types may be
 interleaved, making it difficult to leverage high level expectations about
-workloads such as low archival reads or high HPC sequentiality. 
+workloads such as low archival reads or high HPC sequentiality "High high powered computing sequentiality" reads strangely, just to note.. 
 
 
 % FIXME this is WEAK
 
 
-
+***Why does the below paragraph feel redundant?**
 Preliminary results measuring workload statistics across putative archival,
 enterprise, user, and high performance workloads demonstrate that the feature
 space is large, and even within like dimensions there is high variance in
-features incident across workloads of the same type.  These issues highlight
+features incident across workloads of the same type (Citation/Image?). These diverse characteristics highlight
 the vital need for a \emph{quantitative taxonomy} of storage workloads. That
 is, methods of numerically analyzing and qualifying workload labels and
 characteristics that are \emph{consistent} and \emph{comparable}. Until this is
-done, we are incapable of designing, or even validating, workload aware storage
+done, we are incapable of designing, or even validating, workload-aware storage
 systems.
 
 
@@ -184,7 +190,7 @@ systems.
 interleaved workloads within a shared cloud storage environment?}
        
                 In the cloud, and even in some single-use systems, many workload
-                types may be interleaved, making any general categorization
+                types may be interleaved~\cite{TK}, making any general categorization
                 difficult with the currently available qualitative or
                 single-descriptor vocabulary in systems for describing
                 workloads. If workloads are described solely quantitatively,
@@ -221,8 +227,8 @@ because, once the inputs are separated, retracing to understand what the
 workload was doing is nearly impossible, whereas classifying the workload based
 on its feature profile is a straightforward side effect of ICA.  
 
-With this exploratory work, we propose to create a taxonomy of the space of storage accesses, using features automatically derived from both
-dynamic and static access traces.
+With this exploratory work, \textit{we propose to create a taxonomy of the space of storage accesses, using features automatically derived from both
+dynamic and static access traces.}
 %This is work that industry is not directly
 %interested in funding: there is a significant amount of knowledge passed between
 %system designers out of band, and companies rely on this cultural memory to
@@ -269,8 +275,8 @@ sequential, bursty, since they perform cycles of computation punctuated by I/O,
 and predictable~\cite{liufast14}.  
 
 As systems that ingest and must quickly retrieve and process vast quantities of
-data become commonplace, we will see new workload types appear that traditional
-``HPC'' tuning is a poor fit for.  For instance, autonomous vehicles with Lidar
+data become commonplace, we will see new workload types appear for which traditional
+``HPC'' tuning is a poor fit.  For instance, autonomous vehicles with Lidar
 are projected to generate \textit{and consume} over 4~TB of data per
 day~\cite{selfdrivingcars}.  Much of that data will need to be acted on quickly; a 1s
 additional latency in reading and acting on image data at 70MPH is 100ft of driving, which may be the difference
@@ -285,7 +291,9 @@ between a deadly accident and a near miss.
 %infrastructure wherever in the world it resides, and where these technologies
 %are available as open source to any company.  
 %
-%That’s a truly exciting wave of innovation.  
+%That’s a truly exciting wave of innovation.
+
+AND THIS HIDDEN BIT SEEMS LIKE YOUR INTRO VISION STATEMENT FRIEND! Just make it less TED-talk intro and more possibly applicable. I think the part below might be part of a more concrete application of it. 
 %
 %The advent of self-driving cars will force many changes in how computing and
 %communications systems are architected, both through hardware and software. It’s
@@ -294,7 +302,7 @@ between a deadly accident and a near miss.
 %]
 %
 %http://news.ihsmarkit.com/press-release/automotive/autonomous-vehicle-sales-set-reach-21-million-globally-2035-ihs-says
-\subsection{Case Study 3: GPFS}
+\subsection{Case Study 3: GPFS DEFINE THIS?}
 
 \section{Challenges and Existing Efforts}%{{{
 \label{sec:challenges}
@@ -338,16 +346,17 @@ There are a multitude of very good reasons, such as trade secrets, user
 privacy, or the cost of maintaining a publicly accessible workload database,
 that the majority of storage studies are evaluated against proprietary
 datasets, with only a broad qualitative description and selected parameters made
-available in the paper.  This hurts the reproducibility of
-studies and thus undermines the scientific endeavor of storage analysis.%}}}
+available in the paper. This hurts the reproducibility of
+studies and thus undermines the scientific endeavor of storage analysis.%}}} ... but how is this different than other fields? 
 
+%All three of the below come off as random thoughts.  Can they build to somethign together? Was there a unified message in there?
 Characterization that focuses on specific hardware optimizations, such as
 increasing sequentiality for hard disks~\cite{riska2006disk} or SSD page
 allocation~\cite{seo_char} cannot address higher level questions such as ``would
 it be better to add another hard drive or SSD to the system?''
 
-Some previous work as attempted to separate traces by sequentiality and
-proportion of interleaved working sets~\cite{seo_char}.
+Some previous work has attempted to separate traces by sequentiality and
+proportion of interleaved working sets~\cite{seo_char}.  %<--This sentence is an orphan.
 
 One metric developed in the absence of characterization is ``relative
 fitness.''~\cite{mesnier07}.  Relative fitness measures the improvement from
@@ -359,13 +368,12 @@ dynamic or if the systems in question are vastly different.  It also does not
 suggest further areas of improvement.
 
 % What about the drawbacks?
-The most significant challenge in this enterprise is one of sampling.  To obtain
+The most significant challenge to workload characterization is one of sampling.  To obtain
 a thorough categorization of workloads requires a both a large amount of trace
 data and some level of curation to ensure consistency in tracing methodology.
-To collect enough data for a broadly applicable feature-based workload
-categorization, we will investigate feature selection from both dynamic
-workloads and much easier to obtain static storage snapshots.
 
+
+\textit{Static vs Dynamic traces} 
 Even in a perfect sampling situation, a static workload characterization cannot
 take into account how the usage of a system changes as the system becomes more
 responsive or otherwise tuned for a workload.  As storage performance changes,
@@ -387,6 +395,12 @@ ways.
 \end{quote}
 %\begin{figure}[h!]
 
+%this fits somewhere in proposed reserach:
+
+To collect enough data for a broadly applicable feature-based workload
+categorization, we will investigate feature selection from both dynamic
+workloads and much easier to obtain static storage snapshots.
+
 Traditional storage categories such as 
 ``archival'', ``enterprise'', ``HPC'', ``server'', or ``database,'' can provide
 valuable hints about the expected needs and behaviors of a workload.  For
@@ -402,10 +416,12 @@ However, as data has grown in size, longevity, and number of sources, many of
 these assumptions no longer hold~\cite{ian-tos,dwyer2012practical}.  As workload types and
 requirements diverge, administrators are left to tune devices individually for
 each customer, leading to lost revenue and lack of flexibility to quickly
-respond to changing needs.  We propose to identify a future-resistant taxonomy
+respond to changing needs.  
+
+Using our set of collected features, we propose to identify a future-resistant taxonomy
 of \mW types by characterizing workloads based on metrics that are
-important to tuning storage systems.  This problem can be further broken down
-into identifying metrics that are relevant to tuning and then selecting a set of
+important to tuning storage systems.  Our aims can be further broken down
+into 1) identifying metrics that are relevant to tuning and 2)selecting a set of
 \mws based on the space that these metrics create. 
 %deriving an
 %infrastructure-aware distance
@@ -480,15 +496,14 @@ a workload and the storage infrastructure that serves it.
 %\end{wrapfigure}
 One approach is to consider what workload metrics are most commonly reported in
 the research community when proposing novel algorithms and architectures.
-Though many papers provide few details about the traces they use beyond
-broadly identifying the source system, we have performed a preliminary meta-analysis
+We have performed a preliminary meta-analysis
 of prior workload studies~\cite{wildani2015case}. Figure~\ref{fig:features} is an incidence histogram of the most
-prevalent features from 29 traces that reported metrics.  18 features were reported in multiple workloads, and 5 features appeared were
-reported in a majority of the workloads studied.
+prevalent features from 29 traces that reported metrics.  18 features were reported in multiple workloads, and 5 features were
+reported in more than 50 percent of the workloads studied. This sparse reporting of features across previously published datasets is an issue that we will address in this proposal.
 
-Table~\ref{tab:workloads} lists relevant details of these
-workloads.  Based on the feature distribution, we see that the literature
-appears biased towards metrics such as year and origin that are easy to collect.
+Table~\ref{tab:workloads} lists relevant details of previously published
+workloads from our analysis. Based on the feature distribution, we see that the literature
+appears biased towards metrics such as year and origin that are easy to collect (are these metrics really? You wouldn't put them in a model, right?).
 Statistics such as daily reads and writes are also prominent, indicating that
 they may be useful for characterization. However,
 of the trace analyses we studied, the vast majority of features reported were
@@ -521,7 +536,7 @@ mistake in modern systems
 but the terminology describing
 the workload remains unchanged.
 
-While it is unsurprising that the definitions of trace types has changed over
+While the definitions of trace types has changed over
 time, the variation in ``archival'' or ``user'' workload characteristics between
 traces collected in the same year is a strong indication of the need to create a
 more portable and permanent descriptive language to classify workloads.
@@ -541,7 +556,7 @@ workloads based on aggregate statistics.  Captured workload data are often based
 on the requirements of the local administrator, and thus it is highly variable
 between studies and the presence of particular features is not necessarily
 correlated with feature importance.  Another tactic we propose to derive metrics
-is to leverage the expertise and institutional knowledge of our industry colleagues to create a base 
+is to leverage the expertise and institutional knowledge of our industry colleagues to create a base OF SOMETHING HERE THAT NEEDS TO BE EXPANDED UPON...
 
 % TODO TALK ABOUT PLAN B: MACHINE LEARNING TO GATHER FEATURES BASED ON GPFS
 % TRACES 
@@ -551,7 +566,7 @@ is to leverage the expertise and institutional knowledge of our industry colleag
 
 Establishing a comprehensive storage taxonomy will rely on good data
 collection.  Most datasets used to evaluate computer systems are sensitive and
-not available to researchers.  However, features of these datasets such as
+not available to researchers.  However, features of these datasets such as UNFINISHED THOUGHT HERE?
 
 
 There are two components to the data-gathering phase of our characterization
@@ -1016,10 +1031,13 @@ graphs~\cite{lecunfactor}.
 \section{Prior Work by the PI}
 %FIXME
 %%The PI's current and prior research spans networked systems, data analysis and information security. 
-Characterizing workloads aligns closely with the PI's research vision of \textbf{}:
+Characterizing workloads aligns closely with the PI's research vision of \textbf{quantifying storage provisioning}:
 %\textbf{\emph{automatically finding the best ways to disseminate information to multiple parties in diverse system environments}}.
 
-This CAREER proposal outlines a roadmap towards unsolved research challenges of %smart data replication within caching;
+This CAREER proposal outlines a roadmap towards unsolved research challenges of understanding low-level storage patterns and interactions.  The PI has published preliminary results for feature isolation and workload characterization~\cite{wildani2015case,TK_MASCOTSSNAP,TK_HOTSTORSNAP} as well as initiated and chaired the Workshop on System Analytics and Characterization (SAC), which was co-located with SIGMETRICS in 2016, to reach out to the systems community and understand current unsolved issues in workload characterization~\footnote{https://sites.google.com/site/sacconference2016/index}.     
+
+Finding patterns in storage systems has been central to the PI's research program~\cite{avani-systor,TK_tos}, ranging from exploiting patterns for power management~\cite{avanipdsw}, grouping hashed blocks to reduce the disk bottleneck in in-line deduplication~\cite{hands}, to finding daily usage patterns in industry workloads to reduce the monetary impact of disk rebuild~\cite{perses}.   
+%smart data replication within caching;
 %papers demonstrating preliminary results of \smartcache{}'s performance profiling \cite{saemundsson2014dynamic} and 
 %regenerative cache \cite{sigurbjarnarson2014harmonium} have been published, showing feasibility of these approaches.
 %The scalability of data replication in large-scale distributed systems has been the backbone in the PI's research,
@@ -1033,7 +1051,7 @@ This CAREER proposal outlines a roadmap towards unsolved research challenges of 
 %
 %In addition, the PI has worked on data analysis and machine learning \cite{vigfusson2009adaptively,gudmundsdottir2014extending,rovelli2014pmds,thesis}, including a project of characterizing load imbalance across Facebook's memcache servers \cite{huang2014characterizing}, as well as security
 %\cite{rovelli2014pmds,johansen2014fireflies,guerraoui2012decentralized,jonsson2012secure,jonsson2012robust}, including work for which his Ph.D.~student received a Best Student Paper award \cite{jonsson2012bootstrapping}.
-In addition, the PI has worked on data analysis and machine learning~\cite{TK_Env,EK_Tanya,TK_tos,TK_thesis}, including  
+In addition, the PI has worked on data analysis and machine learning~\cite{GAUL,TK_Env,TK_?,TK_tos,TK_thesis}, including neural computation techniques that explored feature detection in biological systems~\cite{TK_Tanya}.  
 
 %\begin{itemize}
 %\item The PI has advised several students on computer security, including one Ph.D.~student, which has produced several publications 
@@ -1243,8 +1261,14 @@ systems building, and broader impacts will be assessed annually.
 \subsubsection*{Metrics: }
 
 %FIXME Metrics for metric generation
+%FIXME Metrics for metric generation
+ % Metrics are going to be judged based on if they're both interpretible and if 
 Features are determined to be characteristic of a workload if they are
-high-entropy for a given workload stream in a mixed-workload environment.  Once we separate workloads, we can test that the metrics we selected are the optimal metrics to divide our workload space.
+\emph{high-information}, defined using \emph{Shannon entropy}, for a given workload stream in a mixed-workload environment.  This
+means that the metric in question \emph{maximally separates} two workloads that are
+known to have different requirements.
+
+
 %  We
 %will perform an independent component analysis to verify that the features produced
 %are the best fit for the workloads sampled.
@@ -1253,12 +1277,27 @@ high-entropy for a given workload stream in a mixed-workload environment.  Once 
 
 
 % FIXME Metrics for workload characterization/fit
-The primary metric for evaluating how well a system is provisioned for a
-feature-defined workload will be \systemfit. 
-Empirical evaluation of systems with high \systemfit will compare these systems
-against systems using traditional workload prediction using metrics including
-\emph{system load}, \emph{power consumption}, and \emph{I/O latency}.
+%The primary metric for evaluating how well a system is provisioned for a
+%feature-defined workload will be \systemfit. 
+%Empirical evaluation of systems with high \systemfit will compare these systems
+%against systems using traditional workload prediction using metrics including
+%\emph{system load}, \emph{power consumption}, and \emph{I/O latency}.
 
+The primary metric for learning and performance profiling is the
+\emph{accuracy} of the estimated distribution to an optimal curve.
+Once
+we separate workloads, we can test that the metrics we selected are the optimal
+metrics to divide our workload space.
+Empirical evaluation of systems tuned with seperated workloads will compare
+these against tuned interleaved system% using metrics including
+%\emph{system load}, \emph{power consumption}, and \emph{I/O latency}.
+%  We
+%will perform an independent component analysis to verify that the features
+%produced
+%are the best fit for the workloads sampled.
+AutoTune aims to optimize a linear combination of \emph{provisioning overhead} and \emph{overall system performance}, the latter using cost as a proxy.
+Improvement in a primary metric between an extant storage trace and a reply done
+under AutoTune is indicative of success.
 %\emph{cache hit rate}, \emph{end-user latency} and \emph{cache throughput}.
 %Holistic performance profiling will initially use \emph{database CPU load}
 %and database query \emph{response times} as measures.
