@@ -757,7 +757,7 @@ between signals that ICA does not.
 \begin{figure}
   \centering
   \includegraphics[width=.99\linewidth]{ica-5pids.eps}
-  \caption{5 application traces were converted to signals and mixed with a
+  \caption{5 real application traces~\cite{fiu} were converted to signals and mixed with a
   Gaussian mixture model.  We see both by visual examination and the mean
   squared error (mse: lower is better) that the component signals returned by ICA closely resemble ground truth (note: sign is arbitrary).  The signals
   returned by principal components analysis (PCA), a popular feature extraction
@@ -769,10 +769,10 @@ between signals that ICA does not.
 Separating out workloads and identifying their critical metrics may make it
 easier to develop I/O-aware scheduling in domains like super-computing where the
 performance variation caused by I/O
-resource contention is particularly unwelcome~\cite{liufast14}
+resource contention is particularly unwelcome~\cite{liufast14}.
+
 We propose to applying ICA to real systems that lack a
 ground truth. 
-%FIXME Any chance you can first apply it to real systems on which you do have a ground truth for validation purposes? Just because the artificial Gaussian simulation *may* be fairly far away from the truth of real data?
 In particular, ICA takes the number of source signals as a
 parameter, and we will be investigating techniques to estimate this number from
 an arbitrary mixed workload trace, beginning with the technique proposed in
@@ -794,42 +794,43 @@ most researchers have used them for relatively simple analyses such as file size
 distributions and age of files. These snapshots are also typically much smaller,
 and consequently easier to collect and store without undue system impact, than
 dynamic traces.  For HPC systems and other applications where dynamic trace
-collection is infeasible, we plan to separate interleaved workloads by clustering features in metadata snapshots and then classifying the workloads based on a convolutional neural network model.
-%FIXME is there a citation for this type of work, or totally novel? I'm wondering if there's a way to visualize this plan? Formula? Schematic? I don't know your audience and how technically savvy they are. If they're less savvy than you, then mathy pictures are good. Otherwise ignore me. 
-%, validating o and comparing the
-%entropy within clusters to the entropy within natural partitions such as
-%directory hierarchies. 
+collection is infeasible, we plan develop a novel two-step method to use
+metadata snapshots for characteriztion: \textit{separating} interleaved
+workloads by \textit{clustering features} in snapshots and then
+\textit{classifying} the workloads based on a \textit{convolutional neural
+network model}.
 
 With the basic POSIX-like metadata produced from a \texttt{stat} (or similar
-command) of the files in the system, one can glean
-a variety of useful statistics of interest to researchers and administrators,
-such as file size distributions and namespace layout. With multiple snapshots taken
-over time, it is even possible to see how file systems
-evolve~\cite{agrawal:fast07} or to calculate the inter-reference
-intervals between files~\cite{gibson:cmg98}.
- Since these metadata snapshots are
-typically much smaller than dynamic traces, static metadata is relatively easy
-to collect quickly and store semi-permanently. This size advantage, along with
-the lower performance overhead for collecting static snapshots, makes them
-relatively easy to obtain for analysis.
+command) of the files in the system, one can glean a variety of useful
+statistics of interest to researchers and administrators, such as file size
+distributions and namespace layout. With multiple snapshots taken over time, it
+is even possible to see how file systems evolve~\cite{agrawal:fast07} or to
+calculate the inter-reference intervals between files~\cite{gibson:cmg98}.
+Since these metadata snapshots are typically much smaller than dynamic traces,
+static metadata is relatively easy to collect quickly and store
+semi-permanently. This size advantage, along with the lower performance overhead
+for collecting static snapshots, makes them relatively easy to obtain for
+analysis.
 
 Unlike dynamic traces, snapshots do not
-suffer from arbitrary gaps or out-of-order accesses due to tracing bandwidth
-%FIXME  does out of order mean incorrectly sorted, or broken (like,timestamps or elevators?)
-limitations.  That said, snapshots are not taken atomically, and so all temporal
-correlations are assumed to be within a margin of error. 
+suffer from arbitrary gaps or incorrectly ordered accesses due to tracing bandwidth limitations.  That said, snapshots are not taken atomically, and so all temporal
+correlations are assumed to be within a margin of error proportional to the size
+of the file system. 
+% FIXME Replace with something about how clusters would help us realize
+% high-importance features / l2 hidden features and also how clusterings may
+% correspond to actionable workload characteristics. 
 
-As an example, consider trying to identify the access locality within a file
-system. %maybe cite groupingy stuff 
-If files track their last modification time with
-reasonable accuracy, we can take a simple two step process to start learning
-about their modification locality. First, we group files by similar modification
-times, using a density based technique such as DBSCAN~\cite{ester:kdd1996}. We
-can then analyze each of these clusters along a variety of dimensions. It can be
-as simple as comparing the number of unique user IDs within each cluster to see
-if UID is a good predictor of modification locality, to more in depth techniques
-such as agglomerative clustering to examine the namespace locality within files
-modified at a similar time.
+%As an example, consider trying to identify the access locality within a file
+%system. %maybe cite groupingy stuff 
+%If files track their last modification time with
+%reasonable accuracy, we can take a simple two step process to start learning
+%about their modification locality. First, we group files by similar modification
+%times, using a density based technique such as DBSCAN~\cite{ester:kdd1996}. We
+%can then analyze each of these clusters along a variety of dimensions. It can be
+%as simple as comparing the number of unique user IDs within each cluster to see
+%if UID is a good predictor of modification locality, to more in depth techniques
+%such as agglomerative clustering to examine the namespace locality within files
+%modified at a similar time.
 \subsection{Preliminary Results: }
 Metadata snapshots present us with a highly non-linear, multidimensional
 data set.  To meaningfully compare snapshots and discuss correlations within
@@ -838,7 +839,6 @@ projection of the snapshot space onto three dimensions.  Views allow us to
 visually isolate different aspects of user locality, such as when users modify
 files they created, and help define what clustering
 algorithms are likely to perform well on each snapshot.
-%FIXME I think this section is much improved btw. The technical details ground it in application instead of just concept
 %\begin{figure}
 %\centering
 %\subfigure[\texttt{archive}]{
@@ -885,27 +885,44 @@ From these snapshots, we focus on the fields ``create\_time,'' ``modification\_t
 %either low information or non-numeric, making them less 
 %The snapshots were
 %anonymized such that the path field indicated level within the directory hierarchy.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=.95\linewidth]{hotstorsnapshot.eps}
-    \caption{Sample clusterings view for a single snapshot.  Clusters are indicated by shape and modification time is indicated by color.}
-    \label{fig:clusterings}
-\end{figure}
-We examined a series of clusterings using HPC and archival snapshots from Los Alamos
-National Laboratory (LANL) and a set of workstation snapshots collected at Emory.
-Figure~\ref{fig:clusterings} shows a representative LANL snapshot under different clusterings.  
 To analyze storage snapshots, we need an unsupervised learning algorithm that can support $n$-dimensional, non-linear heterogeneous data with low inter-cluster separation while ideally encoding hierarchical relationships between both data and labels without overfitting.
 Additionally, our algorithm should handle arbitrary numbers of sparse, binary
 dimensions to encode Boolean queries about the files in the snapshot
 , such as queries over the ``permissions'' and ``path'' fields.  
+
+
 Agglomerative clustering is a well established, interpretable unsupervised
 machine learning algorithm that fulfills all of the requirements for snapshot
 analysis as well as providing a natural hierarchy for correlating user locality with path.  We also tested $k$-means and a simple grouping based on a single attribute at a time. 
 % TODO: Decide if we also want iClust in this.
-To measure cluster validity in the absence of ground truth, we calculate the joint Shannon entropy across a set of features of
-interest within each clustering.
 
+To measure cluster validity in the absence of ground truth, we calculate the joint Shannon entropy across a set of features of
+interest within each clustering.  In the preliminary work represented in
+Figure~\ref{fig:clusterings},  we calculate a mean entropy defined as
+$$H_{snapshot}=\frac{\sum_{f\in F}{\sum_{i \in C_f} \[-\frac{N_i}{N}\log_2{\frac{N_i}{N}}\]}}{|F|}$$
+where $F$ is the set of snapshot features, $C_f$ is the set of possible values
+for the instance, $N_i$ is the number of samples that show value $i$, and $N$ is
+the total number of samples.
+\begin{figure}
+    \centering
+    \includegraphics[width=.95\linewidth]{hotstorsnapshot.eps}
+    \caption{Sample clusterings and entropies for a single snapshot view.
+    Clusters are indicated by shape and modification time is indicated by color.
+    Lower entropy numbers indicate better clusterings.}
+    \label{fig:clusterings}
+\end{figure}
+We examined a series of clusterings using HPC and archival snapshots from Los Alamos
+National Laboratory (LANL) and a set of workstation snapshots collected at Emory.
+Figure~\ref{fig:clusterings} shows a representative LANL snapshot under
+different clusterings. As expected, agglomerative clusterings have lower mean
+entropy.    
+
+Based on these results,
+we
+are investigating clustering algorithms such as iClust~\cite{TK} that can
+be calculated on-line and support $n$-dimensional, non-linear heterogeneous data and data with low
+inter-cluster separation.
+\end{itemize}
 
 % *** Put these in the real paper *** 
 %\begin{figure}
@@ -970,16 +987,6 @@ interest within each clustering.
 %modifying files that belong to one or two groups, and, particularly in the
 %\texttt{lnfs} case, most of these modifications are within a small span of time.
 
-Based on these results,
-%FIXME there's nothing in here that shows/interprets results anymore. Must be in the green part (that I'm ignoring since it won't show up in the text)
-we
-are investigating other clustering algorithms that can support:
-
-\begin{itemize}
-\item $n$-dimensional, non-linear heterogeneous data
-\item More varied interleaved workloads
-\item Data with low inter-cluster separation
-\end{itemize}
 
 %% Discuss this in real paper!
 %Additionally, our clustering should handle arbitrary numbers of sparse, binary
@@ -1014,7 +1021,7 @@ For instance, we could compare a
 series of clusterings to refine the clustering parameters.  Finally, we are
 interested in studying the effect of changes in snapshots on the clustering to
 obtain a rigorous validity metric.
-%}}}i
+%}}}ii
 % We have another short paper to stick in here!
 \section{AutoTune: Raising the Storage Bar With \Mws}%{{{
 
@@ -1049,24 +1056,20 @@ optimization framework by developing a notion of \systemfit between specific
 high-information features of a workload and the system characteristics that
 impact those features.  %Note that features that best characterize a wo
 
-Once we have workload features, we can create a probabilistic graphical model,
-such as a dynamic factor graph~\cite{lecunfactor}, that predicts how stable this
-characterization is over time.  There is also often out-of-band knowledge that
-indicates the stability of certain system use cases.
-%FIXME I can say for sure the two sentences above this are composed of words, but mean very little to me. Are they jargon or is there specific plan information in them about what you're going to do?
-For example, a
-workload may be characterized primarily by having a 99\% likelihood of write
-size being between 4KB and 8KB and a $< 2$\% likelihood of data overwrite or
-delete.  A system that made writes efficient at the expense of deletes, such as
-LFS~\cite{lfs}, would have a high \systemfit for this hypothetical workload.
-
-To track features of workloads and understand shifts over time, we will use a
+If our workload features are extractable and high information, as a stretch
+goal we propose to derive a probabilistic model to track feature stability of workloads and understand shifts over time. We will use a
 probabilistic graphical model that updates itself by periodically sampling the
-workload and using the \systemfit metric as the reward function for a
+workload and using the  as the reward function for a
 reinforcement learning-based update.  Potential models include dynamic Bayesian
 networks with feedback~\cite{poupart2006analytic} and factor
 graphs~\cite{lecunfactor}.  
-%FIXME This is both more informative and redundant with the two sentences above that I couldn't understand.  How about just go with this one? 
+
+%For example, a
+%workload may be characterized primarily by having a 99\% likelihood of write
+%size being between 4KB and 8KB and a $< 2$\% likelihood of data overwrite or
+%5delete.  A system that made writes efficient at the expense of deletes, such as
+%LFS~\cite{lfs}, would have a high \systemfit for this hypothetical workload.
+
 
 \section{Prior Work by the PI}
 %FIXME
@@ -1309,20 +1312,20 @@ systems building, and broader impacts will be assessed annually.
 
 \subsubsection*{Metrics: }
 
-%FIXME Metrics for metric generation
-%FIXME Metrics for metric generation
+%Metrics for metric generation
  % Metrics are going to be judged based on if they're both interpretible and if 
 Features are determined to be characteristic of a workload if they are
 \emph{high-information}, defined using \emph{Shannon entropy}, for a given workload stream in a mixed-workload environment.  This
 means that the metric in question \emph{maximally separates} two workloads that are
-known to have different requirements.
+known to have different requirements.  We will test this separation using both
+generated workloads w
 
 
 %  We
 %will perform an independent component analysis to verify that the features produced
 %are the best fit for the workloads sampled.
 
-% FIXME Metrics for tracing
+% FIXME Metrics for separatoin
 
 
 % FIXME Metrics for workload characterization/fit
@@ -1431,10 +1434,13 @@ Having a rigorous, extensible, easily communicable workload characterization
 will provide several benefits to the systems community.  The characterization
 will provide a metric for communicating precise requirements, helping designers
 architect systems that are well adapted for the expected workload.
+
+% MUST ADD THIS BACK IN FOR CRII
 Additionally, dynamic categorization of workloads will allow storage providers to
 develop better SLAs that tie performance expectations to storage
 characteristics.  We propose that a quantitative characterization is
 the first step towards more realistic workload simulation and modeling.
+
 Currently, we are working to automate feature extraction from static and dynamic
 workload traces. To date, we have shown that static workload traces can be
 clustered usefully by features~\cite{static}, and have evidence that these
@@ -1471,13 +1477,12 @@ web-based trace repository that will include a visualization and analysis tool. 
 offer configuration suggestions to users while increasing the number
 of traces available to the academic community.  We will work with SNIA to ensure that traces are widely available and a consistent trace format is maintained.
 
-All algorithms and code developed will be released to the community as
-open-source on Github.%, and we will work with SNIA to help define a set of standards for
-%I/O trace measurement and labeling.
-% FIXME Take below out, maybe?
 This work builds on prior experience with large-scale data platforms in industry, including workload
 analysis on a multi-terabyte commercial storage server~\cite{hands} and
 industrial research machines~\cite{avani-systor}.
+All algorithms and code developed will be released to the community as
+open-source on Github.%, and we will work with SNIA to help define a set of standards for
+%I/O trace measurement and labeling.
 
 % Within Science/Social
 \subsubsection*{Impacts Beyond Systems: }
@@ -1499,6 +1504,7 @@ For example, in our archival example, changing the
  % POWER NUMBERS
  % Importance of storage data given compliance, long term retention of
  % photographs, medical records, etc.
+\subsubsection*{Coursework}
 
 \subsubsection*{Student Involvement and Training: }%{{{
 The PI actively encourages the participation of undergraduates, women, and
@@ -1510,18 +1516,24 @@ Celebration of Women in computing, and in her continuing role as co-chair has
 worked to improve the representation and impact of women in systems.  
 Additionally a 3rd undergraduate student was awarded best student
 poster at GHC 2016.  All 3 undergraduates are still completing their studies.
+
+Women currently earn under a fifth of Bachelor's degrees and a quarter of Ph.Ds awarded in computer science
+(https://www.nsf.gov/statistics/2017/nsf17310/), and 
+9\% of students are Hispanic or Latino (https://nces.ed.gov/ipeds/).  Women are
+especially poorly represented in computer systems vs. HCI or AI~\cite{TK}.
 The PI has also actively recruited Latino students and has published 2 papers
 with one student as well as served as a thesis advisor for another.  
 %He has co-authored 5 published papers with 6 undergraduate students, two of whom are women who are now Ph.D.~students at elite US universities (University of Washington and Princeton University) and one of whom won the 2014 Google Anita Borg Memorial Scholarship for projects she worked on with the PI.
 %The PI is the faculty sponsor of the \texttt{/sys/tur} Organization for Women in Computer Science in Iceland, where he has
-Women currently earn under a fifth of Bachelor's degrees and a quarter of Ph.Ds awarded in computer science
-(https://www.nsf.gov/statistics/2017/nsf17310/)
-9\% of students are Hispanic or Latino (https://nces.ed.gov/ipeds/)
-actively worked on encouraging women to pursue a career in computer science through talks, competitions and hack days.
-More than 100 women regularly attend events by the organization.
-The PI is currently working on starting a similar organization at Emory University for women in computing with an active outreach component
-for high schools and K-12 students.%}}}
+%actively worked on encouraging women to pursue a career in computer science through talks, competitions and hack days.
+%More than 100 women regularly attend events by the organization.
+%The PI is currently working on starting a similar organization at Emory University for women in computing with an active outreach component
+%for high schools and K-12 students.%}}}
 
+
+% FIXME Add a metric to determine whether the course is successful.   Broader
+% impacts have to be "beyond the day job"  Double down on the fact you want the
+% course to be accessible remotely.
 
 %\subsubsection*{Encouraging Women and Minorities in Computing: }%{{{
 %% nsfwomen [National Science Foundation, National Center for Science and Engineering Statistics. 2013. Women, Minorities, and Persons with Disabilities in Science and Engineering: 2013. Special Report NSF 13-304. Arlington, VA. Available at http://www.nsf.gov/statistics/wmpd/].
@@ -1548,7 +1560,8 @@ for high schools and K-12 students.%}}}
 % TODO
 \section{Timeline / Year-by-Year Work Plan}%{{{
 \label{sec:timeline}
-
+% Core in the first 3 years.  Stretch Goals in years 4 and 5 clearly marked as
+% stretch goals ("if X happens in year 1-3, then Y, elseif Z...")
 \noindent
 \textbf{Year 1:} 
 \begin{itemize}
@@ -1574,7 +1587,9 @@ for high schools and K-12 students.%}}}
 \textbf{Year 3:}
 \begin{itemize}
 \item Build system to isolate interleaved workloads.
-\item Develop metric to tuning parameter mapping for AutoTune  
+
+\item Begin work on metric to tuning parameter mapping for an AutoTune
+Simulation 
 \item Pilot quantitative storage systems course at Emory.
 \item Introduce data curation mini-track at Grace Hopper.
 %Start research on Regenerative Caches. 
@@ -1589,12 +1604,13 @@ for high schools and K-12 students.%}}}
 \begin{itemize}
 \item Refine AutoTune and deploy in cooperation with industry parters.  Collect usage and efficacy data.
 \item Integrate research into storage systems course. 
+\item Stretch Goal: If we successfully, reliably isolate interleaved workloads, 
 \end{itemize}
 \noindent
 \textbf{Year 5:} 
 %Integration of \smartcache{} stack into test applications, evaluate against defined metrics.
 \begin{itemize}
-\item Publish AutoTune to the community
+\item Stretch goal: If metrics are 
 \item Integrate automatic tuning with the trace metric website.
 \item Graduate first Ph.D.~student.
 %FIXME. This sounds like very little work in year 5?
