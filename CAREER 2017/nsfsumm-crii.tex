@@ -1,0 +1,450 @@
+
+\newcommand{\systemfit}{\textit{system fit}\xspace}
+%%%%%%%%% PROJECT SUMMARY -- 1 page, third person
+% 
+% e.g:  "The PI will prove" not "I will prove"
+
+% From Mimi: 
+
+ % Don't ask questions: the reply will be "why don't they already know?"  Instead, make statements.  Be bold.
+ 
+ % CRII: point out repeatedly that you *don't have* this data already, which is why you need this grant.  Also show, though, that you can get the data.
+ 
+ % for CRII, it's ok to phrase outreach as early early work.  "My department has... "
+
+% I want to make storage systems easier to configure and easier to maintain
+% correctly
+
+% currently, there is a lot of institutional knowledge tied into "tuning" a
+% system for optimal performance for a given set of applications.  there are 2
+% problems with this: first, the tuning takes time and can be highly fragile to
+% small shifts in usage.  second, the tuning requires low level optimization
+% that can't be done on shared cloud storage, so often a "best fit" or "good
+% enough" generic approach is used, potentially using a coarse, high-level
+% characterization such as "archival" that we know is poorly defined /cite~\ian
+% 
+% additionally, this tuning is specific to a workload and infrastructure (both
+% hardware and software) configuration.  Transferring knowledge is difficult
+% even between similar scenarios, such as banks using GPFS.  As a workload
+% changes significantly, there is no systematic way to transfer previous
+% configuration optimality knowledge; you have to re-derive it all over again.
+% 
+% Finally, there is no way to determine a rigorous cost-benefit analysis of
+% "should i change some part of my infrastructure" as different storage media
+% and filesystem tech become available.  I want to answer "what will inline
+% dedup cost me?", "should i add an SSD?", "Do I need more write-cache?".  These
+% are all individual large projects in their own right, but what they all have
+% in common is a need for a fundamental measure of "what's going on in my
+% system", which is our workload blueprint.
+%
+% Not a fingerprint, because those don't change.  Imagine more of a scaffold, a
+% set of instructions that give an idea of what the workload will look like at
+% any given time but doesn't fully specify it.  Maybe just skeleton?  Skeletons
+% in Storage!!
+%
+%  -> what if there existed a quantitative taxonomy of storage workloads?
+%  -> what if we could automatically match a trace to a workload type?
+%  -> What if we could decouple workload features such that system "fit" could
+%  be determined?
+
+% Storage system tuning: Identifying SKELETONS!!!
+
+%\required{Project Summary}
+\subsection*{Project Summary}
+%\begin{center}
+%A critical tool for accelerating performance in large-scale distributed systems---challenges 
+%that may cost millions of dollars and even bankrupt smaller businesses---is the cache.
+%In contrast to traditional caches, the modern application-level caches face 
+%The shift requires rethinking to tackle the performance challenges of tomorrow's systems.
+%With systems facing mounting scalability challenges, 
+%time is ripe to rethink the cache abstraction and 
+%to address how these fundamental assumptions have changed. 
+% ---
+%Caches enable large-scale systems to respond quickly to common queries and shield back-end databases from disruptively high loads,
+%but are ignorant of their system environment, contents and costs.
+%This five-year career development proposal is an integrated
+%research, outreach and education program that focuses on 
+%rethinking the cache design and abstraction to put
+%smart caches at the center of accelerating tomorrow's large-scale systems.
+
+%Modern data management systems are typically optimized to serve a specific type
+%of workload. 
+
+%Understanding how storage systems are used is often the difference between 
+Data centers account for between 3-4\% of annual global energy                                          
+consumption~\cite{nrdc}.  In the United States alone, data centers are wasting                          
+$3.9\times10^{10}$ kW/h, or over \$3.8 billion dollars, of power due to a                               
+combination of peak provisioning, suboptimal data layout, and competing
+storage goals~\cite{masanet,nrdc}. 
+
+Within a data center, the primary cost is
+power and cooling of data storage~\cite{baker2006fresh}. 
+Though SSDs and other non-volatile, random-access, technologies are becoming increasingly
+relevant, peta and exascale storage is still the province of layout-sensitive
+media such as optical disks, hard drives, and magnetic tape.~\cite{TK}.  
+Much of the power overhead of storage media is a function of the sequentiality
+of data access; accessing random data typically requires an order of magnitude
+more power than sequential~\cite{pdsw}.  Improving data layout for storage will
+save money and allow datacenters to meet and exceed environmental standards.
+
+This exploratory program addresses two mutually reinforcing \textbf{research objectives}.
+%collectively called \smartcache{}.
+%comprised of three mutually reinforcing components:
+\begin{myitemize}
+%\item[(i)] 
+
+\item[1.]
+%\item[(ii)] 
+%\textbf{(ii)}
+% ! bin packing
+\emph{System efficiency improves if data layout is workload-aware.}
+ % this includes some idea of global metrics
+ % guarantees about temporal durability of said metrics
+ % 
+
+The PI proposes to develop a novel algorithm to determine optimal disk layout
+based on a collection of working sets or functional data groupings.  Working
+sets are groups of files, blocks, or objects that are likely to be co-accessed
+within a temporal window with a given probability.  We will derive an algorithm
+that can take $k$ devices with different sizes and speeds and place $g$ groups
+with different sizes and priorities in a Pareto-optimal layout.  Additionally,
+the PI will explore the probability space created by potentially overlapping
+working sets to determine the monetary benefit to storing different working sets
+with different replication levels.  
+
+
+The resulting layout will be judged based on the number of seeks performed for
+several standard traces on a simulated array of hardware devices along with the
+overall performance.  This will give a bound on what an optimal layout can
+contribute to system power savings before accounting for the overhead of
+adjusting layouts as the system changes.
+
+%identify a set of canonical \textit{model workloads} to serve as basis vectors for the space
+%of workload characteristics.  These models will be developed by combining domain expertise and machine learning techniques to ascertain what
+%metrics are most relevant across and within different usage scenarios, such as
+%GPFS deployments or high performance scientific experiments.  
+
+%Once a set of
+%metrics are identified, the PI will generate a dendogram of metric combinations such
+%that properties of individual workloads as well as likely evolution of
+%workloads becomes easier to predict.  
+
+%This will be experimentally validated by
+%generating traces using the properties of the model workloads and showing that
+%these model workloads capture enough real workload behavior that the system
+%response is predictable.  
+
+%Metric quality will be addressed using
+%statistics, learning theory, and optimization on 
+%real-world workloads, and evaluated using both simulations and experiments to assess how well they describe real workloads.
+%
+
+% TODO How addressed?
+
+%Scaling with workload is the silver tuna
+
+% Re-replication based on working sets?
+\item[2.]
+\emph{Data layout can be effectively scaled with system size.}% and workload?}
+
+% We want to say "layout for a 4TB disk vs 40TB disk is a thing", and meta-group
+% analysis or somehow storing the metadata for later could fix it.
+
+%At 7200RPM, a maximally slow seek on a 4TB disk will take a lot longerthan a
+%40TB disk  FIXME calculate this!!
+Avoiding random access is important on a system composed of a hundred 4TiB disks, but it is
+critical on a system with four 100~TiB disks.  
+The PI proposes to develop a mechanism to scale existing data layouts as the
+available physical storage is expanded or split across tenants.  The core of
+this algorithm will be a metric that calculates similarity between working sets,
+creating a hierarchical dendogram of working sets that can be queried to
+determine optimal layouts as more storage is added to the system. 
+
+The joint
+probabilities will be determined as a function of the unit and group access
+probabilities, which will result in a metric to determine when it is worthwhile
+to re-configure the system data placement.
+Placement will by judged by number of seeks prevented for different levels of
+movement overhead in several standard traces on a simulated array of hardware
+devices in preparation for developing a real dynamic layout tool.
+%, or simply used
+%differently.      
+
+
+%proposes to primarily identify workloads using
+%filesystem snapshots, which can be collected during periods of system downtime.
+%to both gather training data and provide a workload visualization and annotation tool to the community.
+%and system-aware model fitting
+%for the workloads that are isolated.  The efficacy of the classification will be tested by interleaving %known distinct workloads and verifying that the workloads are correctly isolated and labeled with the model workload that is most similar.  
+
+% FIXME: Include meta-grouping here for deriving workloads?
+
+%This will be evaluated based on
+%performance improvements based on the model workload system parameters being
+%applied to the system.
+
+
+  
+
+%\emph{What if caches were cost conscious?} The PI aims to generate a systematic understanding of how external costs should be incorporated into cache systems, including
+%diverse data-processing costs and performance feedback from external systems affected by cache replacement decisions.
+%The study involves devising performance models as these parameters vary, harnessing properties
+%of cache algorithms to reduce overhead, and are evaluated based on simulations and analysis of their predictive accuracy.
+
+%%\textbf{(iii)}
+%\emph{What if storage system tuning was infrastructure aware?} The PI
+%\emph{What if caches were memory aware?} The PI seeks to create a practical theory and programming framework of how data can be represented with fewer memory resources, %in terms of computation and network instead of only memory resources, 
+%%can be exploited in the context of caching, devising methods for 
+%devising methods for representing cached data in formats that rather use computation or network 
+%resources, and then automatically regenerating the data when needed.
+%%The challenge of diverse content is resolved through regenerative program snippets for common patterns. %, such as scripts
+%%for rederiving data from other cached items.
+%\end{itemize}
+%The program also implements an \textbf{educational plan} that exposes undergraduates, high school and K-12 students
+% to research in computer systems.
+%Interactive course materials on caching will be developed
+%and piloted for undergraduates at Emory University, and released on a website for use at other schools.
+%Cache topics will be integrated in a 
+%new teaching An interactive curriculum will be developed 
+%The online curriculum features an interactive testbed for analyzing cache systems \textbf{
+%developed by the research program}.
+
+%
+%\item[1.]
+%\textbf{(i)} 
+%\emph{What if caches could learn?} The PI proposes to develop and demonstrate a theory of cache learning, a novel concept of exploiting content features of cache items to predict which cached data should be more quickly evicted for optimal cache performance.
+%\emph{What if storage system tuning was portable?} The PI proposes to define a
+%parameterization
+%\emph{What if the cost of data layout was workload-quantifiable?} The PI
+%proposes to develop a suite of unsupervised methods to learn features from
+%static and dynamic workload
+%traces.  These features will be ranked based on their relevance to the
+%\systemfit: a measure of how closely the needs of the workload match the
+%abilities of a target storage system.   Signatures of features will redefine current workload
+%classifications.
+%% Below lines are Ymir's, but they're totally applicable to me, and he'd had
+%% them commented out.  ASK!!!
+
+\end{myitemize}
+
+\subsubsection*{Intellectual Merit: }
+
+%The research outcomes of the proposal expand computer systems research in several ways.
+%There is currently no quantitative method to determine what features define a
+%storage workload. 
+
+This project will form the foundation for a research program centered on making
+future data-driven technologies such as personal assistants or augmented reality
+more efficient and financially accessible.  The two objectives combine to form
+the basis of a scheme to create a data layout customized for both the workloads
+the storage system serves and the devices that comprise it.  Transitioning
+data layout as systems scale while maintaining a connection to the working sets
+running on systems is a first step towards building systems that can be
+automatically provisioned.
+%
+%I THINK THIS SECTION NEEDS TO START BIGGER.  INCORPORATE YOUR GRAND VISION FOR DATABASES SOMEHOW AND THEN USE THE SPECIFIC EXAMPLES BELOW.  
+
+%A method to guide working set detection and layout will answer questions such as 
+
+%select
+%predictive, high-information metrics to describe modern workloads coupled with a way of isolating ``functional workloads'' within a system will open a new area of inquiry for storage system tuning and design.  Questions such as ``is it worth 1 week of engineer time to reduce this latency?'' or ``should we add an SSD to a customer system'' will be easier to answer with a parametric workload model from which to base simulations.% from existing traces will open a new area of
+%%inquiry to better design storage systems for a modern workload.
+%Automatically determining workload features is critical
+%because of the recent shift from dedicated storage systems to shared systems,
+%where large amounts of data are placed together and accessed by a dynamic set of
+%users and applications.
+%
+%Obtaining test data with particular qualities is often the most difficult part of
+%designing new storage systems or algorithms.
+%quantitative methods for determining workload features from static and dynamic
+%traces will also provide a template for designing test workloads, where the
+%over-fitting of the workload to the system is precisely defined and can be
+%adjusted based on the design requirements.
+
+%in storage systems research
+%to determine what workload features specific
+%architectures are designed for.
+% (i) shining the spotlight on a component that has tradition all
+%a method of determining features of a workload will open up new directions in
+%workload analysis and shaping
+%\systemfit, and correspondingly improve .
+%that differ from 
+%modern distributed cache applications differ fundamentally from assumptions that have accumulated over four decades of cache research,
+%the cache abstraction has been refined over the past four decades for low-level system environments 
+%including %significantly 
+%changes in workloads, scale, performance requirements and memory constraints.
+%%
+
+%sets of automatically learned features will allow for a new classification of
+%workloads, which will lead to better communication between academia and industry
+%as to the requirements and constraints on storage system design.  
+
+% FIXME something about how awesome it is that we have a new metric of system
+% fit so we can share workloads better.
+
+\subsubsection*{Broader Impacts: }
+This project will lay the groundwork for reducing the \emph{random-access
+overhead} and consequentially \emph{improving the environmental footprint} of
+datacenters.  % FIXME modern datacenter numbers.  
+Improved layout will also reduce over-provisioning in storage, lowering the cost
+of large and increasingly consumer-facing storage systems.
+All working-set identification algorithms will be designed to be domain
+agnostic and made available on Github
+immediately under a Creative Commons license to encourage rapid adoption by the
+community.  %the PI will build a 
+%web-based trace repository that will include a visualization and analysis tool. This tool will calculate metrics and
+%offer configuration suggestions to users while increasing the number
+%of traces available to the academic community.  The PI will work with SNIP to ensure that traces are widely available and a consistent trace format is maintained.
+
+The PI will also develop a hybrid in person and YouTube-based curriculum to
+attract students from the mathematics and data science communities to academic
+problems in systems.  All materials will be self-paced and subtitled to maximize
+participation from students of all abilities.  The curriculum will include a
+workshop at the Atlanta Science Festival to introduce local high school students
+to quantitative systems research.  This will bring a needed mathematical rigor
+to experimental systems research while improving representation for women and
+minorities.  
+
+%, who tend to choose more mathematical CS subfields, in systems.  %
+%Given the public nature of the web-based trace repository, the PI will connect
+%outreach events to project outputs (the trace repository) and analysis tools
+%which students can use to explore the subject. (Yeah/nay?) 
+
+%* Start a program to train more mathematically inclined people in data analysis
+%for distibuted systems.  Data science is super hot, the overlap between people
+%who know data science and systems is very low, and this would be a good way to
+%get more women into systems since statistically women have preferred more
+%quantitative areas of CS like ML and Algorithms and pure math to systems and
+%infrastructure, to the detriment of the field.%
+
+% There are 4 kinds of broader impacts.
+% 1. advance discovery and understanding while promoting teaching,
+% training and learning
+% 2. broaden the participation of underrepresented groups
+% 3. disseminated broadly to enhance scientific and technological
+% understanding
+% 4. benefits of the proposed activity to society
+%  Integrate research activities into the teaching of science, math and engineering at
+%all educational levels (e.g., K-12, undergraduate science majors, non-science
+%majors, and graduate students).
+%• 	Include students (e.g., K-12, undergraduate science majors, non-science majors,
+%and /or graduate students) as participants in the proposed activities as appropriate.
+%• 	Participate in the recruitment, training, and/or professional development of K-12
+%science and math teachers.
+%• 	Develop research-based educational materials or contribute to databases useful in
+%teaching (e.g., K-16 digital library).
+%• 	Partner with researchers and educators to develop effective means of
+%incorporating research into learning and education.
+%	Establish special mentoring programs for high school students, undergraduates,
+%graduate students, and technicians conducting research.
+%• 	Involve graduate and post-doctoral researchers in undergraduate teaching activities.
+%•	Develop, adopt, adapt or disseminate effective models and pedagogic approaches
+%to science, mathematics and engineering teaching.
+%
+%
+% Participate in developing new approaches (e.g., use of information technology and
+%connectivity) to engage under-served individuals, groups, and communities in science and engineering.
+% Make campus visits and presentations at institutions that serve underrepresented
+%groups.
+%	Establish research and education collaborations with faculty and students at
+%community colleges, colleges for women, undergraduate institutions, and EPSCoR institutions.
+%
+%
+%
+% 	Identify and establish collaborations between disciplines and institutions, among
+%the U.S. academic institutions, industry and government and with international
+%partners.
+%	Stimulate and support the development and dissemination of next-generation
+%instrumentation, multi-user facilities, and other shared research and education
+%platforms.
+%	Maintain, operate and modernize shared research and education infrastructure,
+%including facilities and science and technology centers and engineering research
+%centers.
+%	Upgrade the computation and computing infrastructure, including advanced
+%computing resources and new types of information tools (e.g., large databases,
+%networks and associated systems, and digital libraries).
+%	Develop activities that ensure that multi-user facilities are sites of research and
+%mentoring for large numbers of science and engineering students.
+%Involve the public or industry, where possible, in research and education activities.
+%Give science and engineering presentations to the broader community (e.g., at
+%	museums and libraries, on radio shows, and in other such venues).
+%Make data available in a timely manner by means of databases, digital libraries, or
+%	other venues such as CD-ROMs.
+% Integrate research with education activities in order to communicate in a broader
+% 	context.
+% 
+%
+% 	Demonstrate the linkage between discovery and societal benefit by providing
+%specific examples and explanations regarding the potential application of research
+%and education results.
+%	Partner with academic scientists, staff at federal agencies and with the private
+%sector on both technological and scientific projects to integrate research into
+%broader programs and activities of national interest.
+%	Analyze, interpret, and synthesize research and education results in formats
+%understandable and useful for non-scientists.
+%
+%
+%  have a broad impact on STEM education in an area of recognized need or opportunity? 
+%	have the potential to contribute to transformative change in undergraduate STEM education?
+%
+%i 	Broadening opportunities and enabling the participation of all citizens -- women and men, underrepresented minorities, and persons with disabilities -- is essential to the health and vitality of science and engineering. %}}}
+
+% FIXME OLD BELOW THIS
+%An established set of metrics and algorithms to tune them will help translate advances in storage
+%%design across systems by making storage optimization a modular enterprise.
+%Additionally, a common workload characterization will improve communication of
+%new discoveries across storage systems research, as researchers will be able to
+%discuss the workloads in their studies in aggregate without having to
+%reveal any proprietary access data.
+
+%Improving \systemfit will allow the development of storage solutions that are
+%better provisioned for the particular likely workloads.
+%This will lead to systems with lower power usage and correspondingly lower cost,
+%making it possible to store more data with higher levels of reliability in
+%resource constrained environments.
+
+%Common language to discuss systems workloads will be key to future efforts
+%across the field in sharing datasets and determining how to fairly compare
+%systems with different data.
+%
+%“System Fit” would allow a storage designer to easily determine whether the
+%system matched the workload in a meaningful way.
+%
+%Future systems designs would have a common language to describe the load they
+%are designing for, and would be better optimized to the real needs of that load.  
+%
+%Customers, both in government and industry, would be better able to communicate
+%their needs to storage system designers.
+%
+%Cache operators stand to save both time and resources by shifting away from one-size-fits-all cache replacement and manual incorporation of priorities
+%based on performance.
+% FIXME
+% Our thing lets us throw less data away (design bigger, better storage)
+% Lets us better share the resources that we have, since we will be better able
+% to articulate our requests in terms of expected resource needs and
+% requirements
+% lets us save kittens.  Kittens rocks.
+%The research outcomes of the project 
+
+%The project will shift the cache paradigm towards endowing system caches with greater intelligence and interaction with
+%their environments,
+%opening doors for further scientific discovery into making systems components smarter.
+%\Smartcache{} addresses mounting data center performance problems by enabling operators to integrate performance-aware caches with modern systems ranging from
+%large-scale web services to databases, reducing both programmatic and 
+%operational complexity. 
+%Because improved cache success rates alleviate back-end system load and reduce response time for end users, \smartcache{}'s
+%efficiency translates to cost savings for businesses.
+%
+
+%FIXME 
+% We have a lot of experience in workload analysis, I/O simulation, and a lot of
+% industry contacts to learn what the needs are.  Additionally, at Emory we
+% have lots of interplay with the needs of the life sciences, a workload that
+% hadn't traditionally been served by the storage system community.
+
+%%This project is supported by the extensive experience of the PI in
+%%spatio-temporal workload analysis, including machine learning techniques to
+
+
+
+

@@ -1,0 +1,166 @@
+
+%%%%%%%%% MASTER -- compiles the 4 sections
+
+\documentclass[10pt,letterpaper]{article}
+
+%\usepackage[no-math]{fontspec}
+%\setmainfont{Palatino Linotype}
+%\usepackage{euler}
+
+% Fonts
+\usepackage{mathpazo}
+\usepackage{eulervm}
+%\usepackage{times}
+
+\usepackage{mathptmx,ifthen,graphicx,verbatim}
+\usepackage{colortbl,booktabs}
+\usepackage{subfigure}
+\usepackage{fullpage}
+\usepackage{xspace}
+\usepackage{colortbl}
+\usepackage{url}
+\usepackage{verbatim}
+
+\usepackage{xspace}
+\usepackage{graphicx,xcolor}
+\usepackage{url}
+\usepackage{bibentry}
+\usepackage{cite}
+\usepackage{enumerate}
+\usepackage{wrapfig,comment}
+%\setlength{\parindent}{0pt}
+\usepackage{titlesec}
+\titleformat{\subsubsection}[runin]{\bfseries\xspace}{}{}{}[\ ] 
+\titlespacing*{\subsubsection}{0pt}{4pt}{0pt}
+\usepackage{subfigure}
+\usepackage[font=normal,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\nobibliography*
+
+\usepackage[utf8]{inputenc}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{caption}
+%\usepackage{subcaption}
+\usepackage{amsmath,pgf,tikz}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{plain}                                                      %%
+%%%%%%%%%% EXACT 1in MARGINS %%%%%%%                                   %%
+\setlength{\textwidth}{6.5in}     %%                                   %%
+\setlength{\oddsidemargin}{0in}   %% (It is recommended that you       %%
+\setlength{\evensidemargin}{0in}  %%  not change these parameters,     %%
+\setlength{\textheight}{8.5in}    %%  at the risk of having your       %%
+\setlength{\topmargin}{0in}       %%  proposal dismissed on the basis  %%
+\setlength{\headheight}{0in}      %%  of incorrect formatting!!!)      %%
+\setlength{\headsep}{0in}         %%                                   %%
+\setlength{\footskip}{.5in}       %%                                   %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%                                   %%
+\newcommand{\required}[1]{\section*{\hfil #1\hfil}}                    %%
+\renewcommand{\refname}{\hfil References Cited\hfil}                   %%
+\bibliographystyle{plain}                                              %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\core}[0]{\textsc{Core}\xspace}
+
+%PUT YOUR MACROS HERE
+
+\newenvironment{myitemize}{
+\begin{itemize}
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{-0pt}
+  \setlength{\parsep}{-0pt}
+}{\end{itemize}}
+
+
+
+%%%%%% Gantt chart macros (modified from www.kese.hu/p/tikz.html)
+\newcounter{rownum}
+% \timeline{tick}
+\newcommand*{\timeline}[1]{    % vertical timeline 
+    \draw (t_cur) ++(1,0) node[fill=white,coordinate] (t_cur) {#1}; 
+}
+
+% \barshape{value}{length}{color}{opacity}{height}
+\newcommand*{\barshape}[5]{ 
+    \draw[fill=#3,opacity=#4] (t_cur) -- ++(0,#5) -- ++(#2,0) -- ++(0,0-#5) -- ++(0,0-#5) -- ++(0-#2,0) -- cycle; 
+    \path (t_cur) -- node {#1} ++(#2,0) node[coordinate] (t_cur) {}; 
+}
+
+% \lagtime{value}{length}
+\newcommand*{\lagtime}[2]{ 
+    \barshape{#1}{#2}{white}{0}{.3}
+}
+
+% \activity{value}{length}{color}
+\newcommand*{\activity}[3]{ 
+    \barshape{\small{#1}}{#2}{black!50}{1*#3}{.3}
+}
+
+% \activityrow{name}
+\newcommand{\activityrow}[1]{ 
+    \path (0,\value{rownum}) node[left]{\small{#1}} node[coordinate] (t_cur) {};
+    \addtocounter{rownum}{-1} 
+}
+
+% \begin{gantt}[timeline_name]{num_of_cols}{num_of_rows}
+\newenvironment{gantt}[3][\emph{Time}]{
+    \begin{tikzpicture}[draw=black, yscale=1,xscale=3.8] 
+        \draw (0,-.5) rectangle (#2,-#3+.5); 
+        \setlength{\unitlength}{1cm}
+        \setcounter{rownum}{0} 
+        \activityrow{#1}    %number of horizontal rows
+        % -- horizontal time slice lines
+        \foreach \t in {1,...,#2}{
+            \timeline{\t} 
+            \draw[dotted] (t_cur) +(0,.4) node[fill=white,anchor=north] at +(-.5,0.2) {$Q_{\t}$} -- ++(0,.4-#3);
+        } 
+}{\end{tikzpicture}}
+%%%%%%% END Gantt macros
+
+%\includeonly{NSFsumm}
+
+\begin{document}
+
+
+\newcommand{\remove}[1]{}
+
+%%%%%%%%%%%%% Project Summary max 1 page must include Intellectual Merit and Broader Impact) %%%%%%%%%%%%%%%%%%%
+\setcounter{page}{1}
+\include{nsfsumm-crii}% Max 1 page
+%%%%%%%%%%%%%% Project Description max 10 pages (usually) Must include discussion of recent Prior (last 5 years) %%%%%%%%%%%%%%%%%%%
+%\setcounter{page}{1}
+%\include{proposal}% 
+%
+%%\include{schedule}% 
+%%%%%%%%%%%%%%%%%%%%%%%%%55 
+%%\include{diagram}% 
+%%\include{mockup}% 
+%%%%%%%%%%%%%% References no page limit %%%%%%%%%%%%%%%%%%%
+%\include{nsfref}
+%
+%%%%%%%%%%%%%% Biosketch  Max two pages per person%%%%%%%%%%%%%%%%%%%
+%
+%\setcounter{page}{1}
+%\include{nsfbio}
+%%%%%%%%%%%%%% Budget Justification  no more than 3 pages %%%%%%%%%%%%%%%%%%%
+%\setcounter{page}{1}
+% FIXME PUT THIS BACK IN
+%\include{nsfbudget}% 
+%%%%%%%%%%%%%% Facilities Max 1 page %%%%%%%%%%%%%%%%%%%
+%\setcounter{page}{1}
+%\include{nsffacilities}
+% FIXME PUT THIS BACK IN
+%\clearpage
+%\newpage
+%% Supplementary Documents
+%%%%%%%%%%%%%% Data Management 1 page REQUIRED
+%\setcounter{page}{1}
+%\include{nsfdataman}% 
+%\clearpage
+%\setcounter{page}{1}
+%\include{nsfpersonnel}% 
+%\setcounter{page}{1}
+% FIXME PUT THIS BACK IN
+
+
+\end{document}

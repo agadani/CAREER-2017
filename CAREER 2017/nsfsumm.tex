@@ -51,7 +51,7 @@
 %
 % Not a fingerprint, because those don't change.  Imagine more of a scaffold, a
 % set of instructions that give an idea of what the workload will look like at
-% any given time but doesn't fully specifcy it.  Maybe just skeleton?  Skeletons
+% any given time but doesn't fully specify it.  Maybe just skeleton?  Skeletons
 % in Storage!!
 %
 %  -> what if there existed a quantitative taxonomy of storage workloads?
@@ -89,20 +89,20 @@ $3.9\times10^{10}$ kW/h, or over \$3.8 billion dollars, of power due to a
 combination of peak provisioning, poor workload prediction, and competing
 storage goals~\cite{masanet,nrdc}. 
 %This number is only going to increase as                            
-%more services move into the cloud while retaining more data for increasingly                            
-%indefinite amounts of time~\cite{nrdc,baker2006fresh}. 
-
-Characterization of workload                    
-features will lead to better dynamic provisioning of data centers, which will                           
-reduce the waste of mismatched provisioning between storage workloads and data
-center design.  
-%Tuning distributed storage systems as workloads shift over time allows for intelligent trade-offs between %factors such as power, cost, and data reliability, allowing datacenters to better simultaneously serve %multiple clients.
-%Modern applications on shared cloud storage have wildly different requirements for consistency, cost, and %latency, among other factors.  Storage elasticity is critical for meeting the requirements of different %workloads as they share the same physical storage, and as the workloads themselves shift over time.
+%more services move into the cloud while retaining more data for increasingly
 Currently, many storage tuning guidelines depend on labeling workloads with high level categories such as ``Archival,'' ``Streaming,'' or ``High Performance.'' %Traditional workload labels such as ``archival'' and ``HPC'' 
 These labels are poorly
 understood and inconsistently applied.  As usage of systems has evolved, the common
 language to describe this usage has stagnated in favor of institutional knowledge and reactive storage~\cite{TK}.
-%
+%         
+%indefinite amounts of time~\cite{nrdc,baker2006fresh}. 
+Characterization of workload                    
+features will lead to better dynamic provisioning of data centers, which will 
+reduce the waste of mismatched provisioning between storage workloads and data
+center design.  
+%Tuning distributed storage systems as workloads shift over time allows for intelligent trade-offs between %factors such as power, cost, and data reliability, allowing datacenters to better simultaneously serve %multiple clients.
+%Modern applications on shared cloud storage have wildly different requirements for consistency, cost, and %latency, among other factors.  Storage elasticity is critical for meeting the requirements of different %workloads as they share the same physical storage, and as the workloads themselves shift over time.
+
 %To better understand how
 %workload type translates into system design requirements, a combination
 %of longitudinal analysis and statistical feature extraction to categorize
@@ -110,7 +110,11 @@ language to describe this usage has stagnated in favor of institutional knowledg
 %as the ``write-once, read-maybe'' assumption for archives, have evolved over
 %time is necessary.  
 
-This proposal outlines the groundwork for a research program to supplant these broad categories with a set of NEEDS A WORD HERE \mWs defined by learned \textit{metrics}.  Metrics, such as ``periodicity'' or ``read locality'' will be mapped to \textit{actionable hints} for administrators to improve workload-aware storage provisioning.
+This proposal outlines the groundwork for a research program to supplant these
+broad categories with a set of canonical \textit{model workloads} defined by learned
+\textit{metrics}.  Metrics, such as ``periodicity'' or ``read locality'' will be
+mapped to \textit{actionable hints} for administrators to improve workload-aware
+storage provisioning.
  
 %A small, fixed set of \mws that are sufficiently distinct, measured by maximizing entropy between %workloads, will  to that
 %can be combined to form unique signatures for any specific workload type.  These signatures, in turn, can %provide specific, quantitative suggestions to administrators tasked with tuning storage systems.
@@ -129,10 +133,9 @@ The program addresses three mutually reinforcing \textbf{research objectives}.
 \item[1.]
 %\item[(ii)] 
 %\textbf{(ii)}
-\emph{What if there were a parameterized taxonomy of \textit{model workloads} for
-storage?}
+\emph{A parameterized taxonomy of \textit{model workloads} will improve data sharing and research implementation in systems.}
  % this includes some idea of global metrics
- % gaurantees about temporal durability of said metrics
+ % guarantees about temporal durability of said metrics
  % 
 
 The PI proposes to identify a set of canonical \textit{model workloads} to serve as basis vectors for the space
@@ -146,21 +149,29 @@ GPFS deployments or high performance scientific experiments.
 
 %This will be experimentally validated by
 %generating traces using the properties of the model workloads and showing that
-%these model workloads capture enough real workload behaviour that the system
+%these model workloads capture enough real workload behavior that the system
 %response is predictable.  
 Metric quality will be addressed using
 statistics, learning theory, and optimization on 
 real-world workloads, and evaluated using both simulations and experiments to assess how well they describe real workloads.
 
 \item[2.]
-\emph{What if workloads were automatically detectable and classified into
-\textit{model workload} categories?}
-The PI proposes to develop a suite of algorithms to identify workloads, defined as correlated I/O activity, in traces and associate the workloads found with corresponding model
-workloads.  The PI will focus on isolating interleaved workloads within static and dynamic traces.  Once workloads are isolated, they will be matched to the appropriate model category through defining a weighted similarity function.  The PI will design an online system to calculate metrics on workloads to produce hints HINTS SEEMS VERY SUBTLE. GUIDELINES? for tuning elastic storage systems.
+\emph{Workloads must be automatically detectable and classified into
+\textit{model workload} categories.}
+
+The PI proposes to develop a suite of algorithms to identify workloads, defined
+as correlated I/O activity, in traces and associate the workloads found with
+corresponding model workloads.  The PI will focus on isolating interleaved
+workloads within static and dynamic traces.  Once workloads are isolated, they
+will be matched to the appropriate model category through defining a weighted
+similarity function.  The PI will design an online system to calculate metrics
+on workloads and produce dynamic hints for tuning elastic storage systems.
+
 %proposes to primarily identify workloads using
 %filesystem snapshots, which can be collected during periods of system downtime.
 The study involves developing low-overhead trace collection for model workload
-features, separation of interleaved workloads, and building a web-based tool to provide workload analysis to the commmunity 
+features, separation of interleaved workloads, and building a web-based tool to
+provide workload analysis to the community.
 %to both gather training data and provide a workload visualization and annotation tool to the community.
 %and system-aware model fitting
 %for the workloads that are isolated.  The efficacy of the classification will be tested by interleaving %known distinct workloads and verifying that the workloads are correctly isolated and labeled with the model workload that is most similar.  
@@ -173,11 +184,13 @@ features, separation of interleaved workloads, and building a web-based tool to 
 
 
 \item[3.]
-\emph{What if storage system tuning were (technically these are all subjunctive present contrary to fact) automatic and portable?} The PI aims to develop a
-parametric model of the relationship between storage workloads and the
-infrastructures developed to serve them.  %Given that model workloads are defined by a set of metrics, 
-The PI will architect a system that maps metrics to tuning hints while accounting for inter and intra-workload metric interactions.  
+\emph{Storage system provisioning can be automated and portable.}
+%FIXME Maybe put back in?
+%The PI aims to develop a
+%parametric model of the relationship between storage workloads and the
+%infrastructures developed to serve them.  %Given that model workloads are defined by a set of metrics, 
 
+The PI will architect AutoTune, a system that maps metrics to tuning hints while accounting for inter and intra-workload metric interactions.  
 The PI aims to
 demonstrate, both analytically and through experimental validation, that tunings for similar workloads are transferable between storage
 systems and that automated tuning improves storage system provisioning in terms of performance and cost.
@@ -243,10 +256,19 @@ systems and that automated tuning improves storage system provisioning in terms 
 %There is currently no quantitative method to determine what features define a
 %storage workload. 
 
-I THINK THIS SECTION NEEDS TO START BIGGER.  INCORPORATE YOUR GRAND VISION FOR DATABASES SOMEHOW AND THEN USE THE SPECIFIC EXAMPLES BELOW.  
+%I THINK THIS SECTION NEEDS TO START BIGGER.  INCORPORATE YOUR GRAND VISION FOR DATABASES SOMEHOW AND THEN USE THE SPECIFIC EXAMPLES BELOW.  
 
-A method to select
-predictive, high-information metrics to describe modern workloads coupled with a way of isolating ``functional workloads'' within a system will open a new area of inquiry for storage system tuning and design.  Questions such as ``is it worth 1 week of engineer time to reduce this latency?'' or ``should we add an SSD to a customer system'' will be easier to answer with a parametric workload model from which to base simulations.% from existing traces will open a new area of
+This project will re-open the field of workload characterization and help the systems community handle the massive,
+decentralized data on the horizon from consumer systems such as self-driving
+cars or augmented reality.
+A method to select predictive, high-information metrics to describe modern
+workloads coupled with a way of isolating ``functional workloads'' within a
+system will open a new area of inquiry for storage system tuning and design.
+Questions such as ``is it worth 1 week of engineer time to reduce this
+latency?'' or ``should we add an SSD to a customer system'' will be easier to
+answer with a parametric workload model from which to base simulations.
+
+% from existing traces will open a new area of
 %inquiry to better design storage systems for a modern workload.
 %Automatically determining workload features is critical
 %because of the recent shift from dedicated storage systems to shared systems,
@@ -255,10 +277,12 @@ predictive, high-information metrics to describe modern workloads coupled with a
 %
 %Obtaining test data with particular qualities is often the most difficult part of
 %designing new storage systems or algorithms.
-Quantitative methods for determining workload features from static and dynamic
-traces will also provide a template for designing test workloads, where the
-over-fitting of the workload to the system is precisely defined and can be
-adjusted based on the design requirements.
+
+% FIXME Maybe put back in
+%Quantitative methods for determining workload features from static and dynamic
+%traces will also provide a template for designing test workloads, where the
+%over-fitting of the workload to the system is precisely defined and can be
+%adjusted based on the design requirements.
 
 %in storage systems research
 %to determine what workload features specific
@@ -282,16 +306,29 @@ adjusted based on the design requirements.
 % fit so we can share workloads better.
 
 \subsubsection*{Broader Impacts: }
-As part of this project, the PI will build a 
-web-based trace repository that will include a visualization and analysis tool. This tool will calculate metrics and
-offer configuration suggestions to users while increasing the number
-of traces available to the academic community.  The PI will work with SNIA to ensure that traces are widely available and a consistent trace format is maintained.
 
-The PI will also pioneer a curriculum to attract students from the mathematics and data science communities to systems research. The curriculum will include a workshop at the Atlanta Science Festival to introduce local high school students to quantitative systems research.  This will bring a needed mathematical rigor to experimental systems research while improving representation for women and minorities.%, who tend to choose more mathematical CS subfields, in systems.  %
-Given the public nature of the web-based trace repository, the PI will connect outreach events to project outputs (the trace repository) and analysis tools which students can use to explore the subject. (Yeah/nay?) 
+This project will give the systems community a standard set of metrics to
+express details about workloads used in papers where the data is proprietary,
+improving the uptake and reproducibility of systems research.  As part of this
+project, the PI will build a web-based trace repository that will include a
+visualization and analysis tool. This tool will calculate metrics and offer
+configuration suggestions to users while increasing the number of traces
+available to the academic community.  This active repository will also hasten
+the adoption of standard metrics.  The PI will work with SNIA to ensure that
+traces are widely available and a consistent trace format is maintained.
+
+The PI will also pioneer a curriculum to attract students from the mathematics
+and data science communities to systems, including a workshop in calculating metrics for the trace repository to introduce local high school students
+to quantitative systems research.  This will bring a needed mathematical rigor
+to the field while improving representation for women and
+minorities.  
+%The PI will invove the connect outreach events to the AutoTune trace repository and analysis tools which students can use to
+%explore the subject. 
+
+%i(Yeah/nay?) 
 
 %* Start a program to train more mathematically inclined people in data analysis
-%for distibuted systems.  Data science is super hot, the overlap between people
+%for distributed systems.  Data science is super hot, the overlap between people
 %who know data science and systems is very low, and this would be a good way to
 %get more women into systems since statistically women have preferred more
 %quantitative areas of CS like ML and Algorithms and pure math to systems and
@@ -363,7 +400,7 @@ of underrepresented groups.
  
 of un
 at events
-well attended by sunderrepresented groups.
+well attended by underrepresented groups.
 particularly include 
 
 
