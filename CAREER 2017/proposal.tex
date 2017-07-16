@@ -2,6 +2,7 @@
 
 \renewcommand{\P}{\textrm{Pr}}
 \newcommand{\E}{\mathbb{E}}
+\newcommand{\at}{\textsc{\at{}}}
 
 %\renewcommand{\thefootnote}{\fnsymbol{footnote}}
 %\makeatletter\stepcounter{\@mpfn}\makeatother
@@ -50,30 +51,15 @@
 %reliability, availability, and performance.  High impact projects highlight
 %special cases in this tuning.
 
-In a not-too-distant future where the devices we use are not just networked, but
-share huge volumes of data alongside instantaneous and vital decisions.
+In a not-too-distant future, our devices will not just be networked, but
+share huge volumes of data required for instantaneous and vital decisions.
 Technologies such as self-driving cars, smart cities and homes, and augmented
 reality all depend on handling massive quantities of data quickly and reliably.
 Understanding the characteristics of workloads such as these will be critical to
 reducing storage costs and making the cloud of tomorrow accessible and equitable
 for all.
 
-%Imagine too, a world where there are clouds everywhere; where the devices we use%{{{
-%are not just networked, but share the burden of huge volumes of data and
-%instantaneous decisions, where software is seamlessly managed across
-%infrastructure wherever in the world it resides, and where these technologies
-%are available as open source to any company.  
-%
-%That’s a truly exciting wave of innovation.
 
-%AND THIS HIDDEN BIT SEEMS LIKE YOUR INTRO VISION STATEMENT FRIEND! Just make it less TED-talk intro and more possibly applicable. I think the part below might be part of a more concrete application of it. 
-%%
-%The advent of self-driving cars will force many changes in how computing and
-%communications systems are architected, both through hardware and software. It’s
-%these advances in data management, combined with edge computing that will enable
-%driverless cars, smart cities and homes, and other connected technologies.
-%]
-%
 %http://news.ihsmarkit.com/press-release/automotive/autonomous-vehicle-sales-set-reach-21-million-globally-2035-ihs-says%}}}
 
 
@@ -409,7 +395,7 @@ domain-agnostic metrics with learned features. from static and dynamic traces.  
 graphical models have successfully incorporate learned
 feedback~\cite{liu2012feedback}.  %}}}
 
-\section{Proposed Research: Identify a set of \mWs that represent the major classes of applications that systems are tuned to serve.}
+\section{Proposed Research: Define a set of \mWs that represent the major classes of applications that systems are tuned to serve.}
 %Feature extraction and blind source separation of data streams are well defined areas in the ML community, this is promising for workload characterization as well.
 \begin{quote}
 If a program manipulates a large amount of data, it does so in a small number of
@@ -731,20 +717,26 @@ workloads being mixed even more thoroughly than our cocktail-party example.
 Blind source separation techniques like independent components
 analysis (ICA) isolate individual non-Gaussian
 signals within a shared data pipeline by selecting a set of candidate signals
-and then minimizing the mutual information across said signals.     
-We believe that ICA could be used to separate workloads as a precursor to
+and then minimizing the mutual information across said signals.  This is accomplished through measuring signal kurtosis and using non-Gaussianity as a poroxy for independence~\cite{hyvarinen2004independent}.  ICA has been used sucessfully to separate other dependent parallel time series such as financial data~\cite{hyvarinen2004independent} and EEG recordings~\cite{vigario2000independent}.
+We believe that ICA could be used to separate storage workloads as a precursor to
 identification.
-% TODO Add math, that's why I'm in this godforsaken tex format anyways... :-D  
 
+The FastICA algorithm is a generative model that separates out the non-Gaussian independent components using an iterative Gram-Schmidt-like decorrelation to find the weight vectors of the mixing matrix between the component signals.  For weight vector $w_i$, the update step is: 
+\begin{equation}
+    w_{i_1} = w_{i_0}-\sum_{j=1}^{i-1} w_{i_0}^Tw_jw_j
+\end{equation}
+, after which it is re-normalized.
+
+The mixing matrix can be thought of as simulating I/O
+contention and scheduling issues between the workloads.  
 Our preliminary results (Figure~\ref{fig:ica}) show that ICA
 can successfully disentangle workloads in a lab setting.  For both of these
-figures, the source traces were converted to signals by whitening and were mixed using
-a Gaussian mixing matrix of full rank.
-%FIXME Why did you use a GMM if above you say ICA isolates non-Gaussian signals. Is one of these a typo?
-The mixing matrix simulates I/O
-contention and scheduling issues between the workloads.  
-ICA was then used to disentangle the
-traces, and mean squared error was calculated to validate the returned traces.  
+figures, the source traces were converted to signals, centered, whitened, and were mixed using
+a mixing matrix of full rank.
+%FIXME Why did you use a GMM if above you say ICA isolates non-Gaussian signals. Is one of these a typo?  yes: the componenys are non gaussian
+
+%ICA was then used to disentangle the
+%traces, and mean squared error was calculated to validate the returned traces.  
 To validate, we calculate mean squared error (mse) between the recovered signals and
 the true source signals.  We found that ICA returned an mse of about 1.30.  To
 put this in context, we also calculated the mse for signals returned from
@@ -898,7 +890,9 @@ analysis as well as providing a natural hierarchy for correlating user locality 
 To measure cluster validity in the absence of ground truth, we calculate the joint Shannon entropy across a set of features of
 interest within each clustering.  In the preliminary work represented in
 Figure~\ref{fig:clusterings},  we calculate a mean entropy defined as
-$$H_{snapshot}=\frac{\sum_{f\in F}{\sum_{i \in C_f} \[-\frac{N_i}{N}\log_2{\frac{N_i}{N}}\]}}{|F|}$$
+\begin{equation}
+    H_{snapshot} = \frac{\sum_{f\in F}\sum_{i \in C_f} -\frac{N_i}{N}\log_2{\frac{N_i}{N}}}{|F|}
+\end{equation}, 
 where $F$ is the set of snapshot features, $C_f$ is the set of possible values
 for the instance, $N_i$ is the number of samples that show value $i$, and $N$ is
 the total number of samples.
@@ -921,7 +915,6 @@ we
 are investigating clustering algorithms such as iClust~\cite{TK} that can
 be calculated on-line and support $n$-dimensional, non-linear heterogeneous data and data with low
 inter-cluster separation.
-\end{itemize}
 
 % *** Put these in the real paper *** 
 %\begin{figure}
@@ -1022,7 +1015,7 @@ interested in studying the effect of changes in snapshots on the clustering to
 obtain a rigorous validity metric.
 %}}}ii
 % We have another short paper to stick in here!
-\section{AutoTune: Raising the Storage Bar With \Mws}%{{{
+\section{\at{}: Raising the Storage Bar With \Mws}%{{{
 
 
 In the third phase of this project, we will build a set of parameterized configuration
@@ -1134,8 +1127,7 @@ moving a known workload between two infrastructures.  Measuring improvement
 allows for insights about suitability for an infrastructure to a given workload
 without having to go through a full parameterization, but it ultimately is a
 low-information metric that fails entirely if the workload properties are
-dynamic or if the systems in question are vastly different.  It also does not
-suggest further areas of improvement.
+dynamic or if the systems in question are vastly different.  
 
 \subsubsection*{Trace Collection: }
 Chen~\emph{et al.} pointed out that
@@ -1346,9 +1338,9 @@ these against tuned interleaved system% using metrics including
 %will perform an independent component analysis to verify that the features
 %produced
 %are the best fit for the workloads sampled.
-AutoTune aims to optimize a linear combination of \emph{provisioning overhead} and \emph{overall system performance}, the latter using cost as a proxy.
+\at{} aims to optimize a linear combination of \emph{provisioning overhead} and \emph{overall system performance}, the latter using cost as a proxy.
 Improvement in a primary metric between an extant storage trace and a reply done
-under AutoTune is indicative of success.
+under \at{} is indicative of success.
 %\emph{cache hit rate}, \emph{end-user latency} and \emph{cache throughput}.
 %Holistic performance profiling will initially use \emph{database CPU load}
 %and database query \emph{response times} as measures.
@@ -1516,10 +1508,10 @@ worked to improve the representation and impact of women in systems.
 Additionally a 3rd undergraduate student was awarded best student
 poster at GHC 2016.  All 3 undergraduates are still completing their studies.
 
-Women currently earn under a fifth of Bachelor's degrees and a quarter of Ph.Ds awarded in computer science
+Women currently earn under a fifth of Bachelor's degrees and Ph.Ds awarded in computer science
 (https://www.nsf.gov/statistics/2017/nsf17310/), and 
 9\% of students are Hispanic or Latino (https://nces.ed.gov/ipeds/).  Women are
-especially poorly represented in computer systems vs. HCI or AI~\cite{TK}.
+especially poorly represented in computer systems (14\%) vs. HCI or AI~\footnote{http://cra.org/crn/2012/09/taulbee_in-depth_phd_specialty_areas/}.
 The PI has also actively recruited Latino students and has published 2 papers
 with one student as well as served as a thesis advisor for another.  
 %He has co-authored 5 published papers with 6 undergraduate students, two of whom are women who are now Ph.D.~students at elite US universities (University of Washington and Princeton University) and one of whom won the 2014 Google Anita Borg Memorial Scholarship for projects she worked on with the PI.
@@ -1554,7 +1546,9 @@ with one student as well as served as a thesis advisor for another.
 %develop their skills in a safe environment without the stigma often associated
 %with classroom settings and physical competitions \cite{Shumba:2013:CWM:2543882.2543883}. %}}}
 
- 
+% FIXME PROJECT HYPATIA
+% FIXME SAC WORKSHOP
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TODO
 \section{Timeline / Year-by-Year Work Plan}%{{{
@@ -1586,7 +1580,7 @@ with one student as well as served as a thesis advisor for another.
 \textbf{Year 3:}
 \begin{itemize}
 \item Build system to isolate interleaved workloads.
-\item Begin work on metric to tuning parameter mapping for an AutoTune
+\item Begin work on metric to tuning parameter mapping for an \at{}
 Simulation 
 \item Pilot quantitative storage systems course at Emory.
 \item Introduce data curation mini-track at Grace Hopper.
@@ -1600,7 +1594,7 @@ Simulation
 %Full-stack integration of \smartcache{} components. 
 %
 \begin{itemize}
-\item Refine AutoTune and deploy in cooperation with industry parters.  Collect usage and efficacy data.
+\item Refine \at{} and deploy in cooperation with industry parters.  Collect usage and efficacy data.
 \item Integrate research into storage systems course. 
 \item Stretch Goal: If we successfully, reliably isolate interleaved workloads, 
 \end{itemize}
